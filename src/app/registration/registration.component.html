@@ -1,0 +1,76 @@
+<div class="registration-page">
+  <div class="form">
+        <form class="register-form" [formGroup]="regForm">
+            <div>
+              <input type="text"
+                placeholder="First Name"
+                class="form-control"
+                id="firstName"
+                formControlName="firstName"
+                required/>
+                <div  class="invalid-feedback" *ngIf="formFields.firstName.errors" >
+                  Please provide first name.
+                </div>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Last Name"
+                class="form-control"
+                id="lastName"
+                formControlName="lastName" 
+                required/>
+                <div  class="invalid-feedback" *ngIf="formFields.lastName.errors" >
+                  Please provide last name.
+                </div>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Email"
+                class="form-control"
+                id="email"
+                formControlName="emailId" 
+                required
+              />
+              <div  class="invalid-feedback" *ngIf="formFields.emailId.errors" >
+                Please provide email.
+              </div>
+            </div>
+
+            <div>
+              <input type="text"
+               placeholder="Password"
+                class="form-control"
+                id="password"
+                formControlName="password" 
+                required
+              />
+              <div  class="invalid-feedback" *ngIf="formFields.password.errors" >
+                Please provide password.
+              </div>
+            </div>
+
+            <div>
+              <input type="text"
+               placeholder="Confirm Password"
+                class="form-control"
+                id="confirmPassword"
+                formControlName="confirmPassword"
+                required
+              />
+              <div  class="invalid-feedback" *ngIf="formFields.confirmPassword.errors" >
+                Please provide confirm password.
+              </div>
+            </div>
+        
+            <div>
+                   <select formControlName="role" class="form-control selectDiv" id="roleSets" required>
+                        <option disabled hidden value="">Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="FARMAR">Farmar</option>
+                    </select>
+            </div>
+            <button type="submit" (click)="proceedForRegistration(regForm);">create</button>
+            <p class="message">Already registered? <a class="navigate" (click)="SwitchtoNavigate()">Sign In</a></p>
+        </form>
+  </div>
+</div>
