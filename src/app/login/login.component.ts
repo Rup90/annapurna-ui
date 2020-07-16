@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Query } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
-
+import { map } from 'rxjs/operators';
+import { DataService } from '../shared/dataservices/dataService';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,10 +14,9 @@ export class LoginComponent implements OnInit {
 
   // Variable declarations
   public loginForm: FormGroup;
-
+  public loginInformation: any;
   public submitted = false;
-
-  constructor(private router: Router, private formBuilder: FormBuilder, private apollo: Apollo) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private apollo: Apollo, public dataServ: DataService) { }
 
   ngOnInit(): void {
     this.createLoginForm();
@@ -50,8 +50,38 @@ export class LoginComponent implements OnInit {
    * Fetch Data from GraphQL
    */
   public fetchLoginData() {
-    console.log(this.loginForm);
-    this.router.navigate(['/admin']);
+    try {
+      this.apollo.query<any>({
+        query: gql`
+          query {
+              login(loginInput: {
+                email: "${this.loginForm.value.emailId}",
+                password: "${this.loginForm.value.password}"
+              }) {
+                    token
+                    role
+                    user_id
+                    expiresIn
+                  }
+               }
+          `
+          }).subscribe(( res ) => {
+            console.log(res);
+            if (res) {
+              const loginData = res.data.login;
+              this.dataServ.saveIntoLocalStorage('TOKEN', loginData.token);
+              if (loginData.role === 'ADMIN') {
+                this.router.navigate(['/admin']);
+              } else {
+                this.router.navigate(['/dashboard']);
+              }
+            }
+          }, (errors) => {
+            alert('Something is wrong');
+          });
+    } catch (err) {
+
+    }
   }
 
   /**

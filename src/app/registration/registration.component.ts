@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-
+import gql from 'graphql-tag';
+import {Apollo} from 'apollo-angular';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -22,7 +24,7 @@ export class RegistrationComponent implements OnInit {
   ];
   public regForm: FormGroup;
   public submitted = false;
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private formBuilder: FormBuilder, private apollo: Apollo) { }
 
   get formFields() { return this.regForm.controls; }
 
@@ -53,10 +55,49 @@ export class RegistrationComponent implements OnInit {
       this.submitted = true;
       return;
     }
-    console.log(this.regForm);
+    this.registerUser();
   }
 
+  /**
+   * Registration Mutation
+   */
+  public registerUser() {
+    const { firstName, lastName, emailId, password, role } = this.regForm.value;
+    try {
+      this.apollo.mutate({
+        mutation: gql`
+          mutation {
+            registration(userInput: {
+              firstName: "${firstName}",
+              lastName: "${lastName}",
+              email: "${emailId}",
+              password: "${password}",
+              role: "${role}"
+            }) {
+                    status,
+                    message,
+                    email
+                  }
+               }
+          `
+          }).subscribe(( res ) => {
+            console.log(res.data);
+            if (res) {
+                const { status, message } = res.data?.registration;
+                if (status === 200) {
+                  alert(message);
+                  this.createRegForm();
+                }
+            }
 
+          }, (errors) => {
+           console.log(errors);
+          });
+    } catch (err) {
+
+    }
+
+  }
   public SwitchtoNavigate() {
     this.router.navigate(['/login']);
   }

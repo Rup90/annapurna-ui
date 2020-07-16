@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
+import { DataService } from '../shared/dataservices/dataService';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,9 +11,10 @@ import {Apollo} from 'apollo-angular';
 export class AdminDashboardComponent implements OnInit {
 
   public allItems = [];
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo,  public dataServ: DataService) { }
 
   ngOnInit(): void {
+    this.dataServ.deCodeToken();
     this.fetchItems();
   }
 
