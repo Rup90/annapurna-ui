@@ -64,7 +64,7 @@ export class RegistrationComponent implements OnInit {
   public registerUser() {
     const { firstName, lastName, emailId, password, role } = this.regForm.value;
     try {
-      this.apollo.mutate({
+      this.apollo.mutate<any>({
         mutation: gql`
           mutation {
             registration(userInput: {
@@ -83,10 +83,11 @@ export class RegistrationComponent implements OnInit {
           }).subscribe(( res ) => {
             console.log(res.data);
             if (res) {
-                const { status, message } = res.data?.registration;
+                const { status, message } = res.data.registration;
                 if (status === 200) {
                   alert(message);
                   this.createRegForm();
+                  this.router.navigate(['/login']);
                 }
             }
 

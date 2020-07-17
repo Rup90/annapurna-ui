@@ -6,8 +6,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
-
+import { connectApiLink } from './app.graphql.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +25,7 @@ import { createHttpLink } from 'apollo-link-http';
     useFactory: () => {
       return {
         cache: new InMemoryCache(),
-        link: createHttpLink({ uri: 'http://localhost:8000/graphql' }),
+        link: connectApiLink,
       };
     },
   }],

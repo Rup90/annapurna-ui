@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
 body {
     background: #76b852; /* fallback for old browsers */
     background: -webkit-linear-gradient(right, #76b852, #8DC26F);
@@ -11,13 +12,19 @@ body {
   }
 
   .login-page {
-    width: 360px;
+    width: 500px;
     padding: 8% 0 0;
     margin: auto;
   }
 
-  .registration-page {
-    width: 360px;
+  .profile-page {
+    width: 500px;
+    padding: 5% 0 0;
+    margin: auto;
+  }
+
+  .registration-page, .home-page {
+    width: 500px;
     padding: 8% 0 0;
     margin: auto;
   }
@@ -25,22 +32,13 @@ body {
     position: relative;
     z-index: 1;
     background: #FFFFFF;
-    max-width: 360px;
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
   }
   .form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
     margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
   }
   .form button {
     font-family: "Roboto", sans-serif;
@@ -56,6 +54,9 @@ body {
     transition: all 0.3 ease;
     cursor: pointer;
   }
+  .selectDiv {
+    margin: 0 0 15px;
+  }
   .form button:hover,.form button:active,.form button:focus {
     background: #43A047;
   }
@@ -69,7 +70,7 @@ body {
     text-decoration: none;
   }
 
-  .container {
+  /* .container {
     position: relative;
     z-index: 1;
     max-width: 300px;
@@ -101,8 +102,35 @@ body {
   }
   .container .info span .fa {
     color: #EF3B3A;
-  }
+  } */
 
   .navigate {
       cursor: pointer;
   }
+
+  /*
+* Spinner
+*/
+#overlay {
+  background: #ffffff;
+  color: #666666;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 5000;
+  top: 0;
+  left: 0;
+  float: left;
+  text-align: center;
+  padding-top: 25%;
+  opacity: .80;
+}
+.spinner {
+  margin: 0 auto;
+  height: 64px;
+  width: 64px;
+  animation: rotate 0.8s infinite linear;
+  border: 5px solid firebrick;
+  border-right-color: transparent;
+  border-radius: 50%;
+}

@@ -11,7 +11,7 @@ const routes: Routes = [
         loadChildren: () => import('../app/registration/registration.module').then(m => m.RegistrationModule)
     },
     {
-        path: 'dashboard',
+        path: 'user',
         loadChildren: () => import('../app/dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {

@@ -1,0 +1,54 @@
+<div class="container profile-page">
+  <div class="form">
+        <form class="profile-form" [formGroup]="profileForm">
+            <div>
+              <input type="text"
+                placeholder="First Name"
+                class="form-control"
+                id="firstName"
+                formControlName="firstName"
+                id="firstName"/>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Last Name"
+                class="form-control"
+                id="lastName"
+                formControlName="lastName"
+                id="lastName"/>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Email"
+                class="form-control"
+                formControlName="emailId"
+                id="email" readonly/>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Phone No"
+                class="form-control"
+                formControlName="phoneNumber"
+                id="phoneNo"/>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Role"
+                class="form-control"
+                formControlName="role"
+                id="role" readonly/>
+            </div>
+            <div>
+              <textarea id="address" name="address"  class="txtArea" formControlName="address" placeholder="Address" rows="4" cols="50"></textarea>
+            </div>
+
+            <button type="submit" (click)="updateProfile()">Update Profile</button>
+        </form>
+  </div>
+  <div id="overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <br />
+            Loading...
+        </div>
+</div>
+

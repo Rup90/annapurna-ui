@@ -1,0 +1,59 @@
+.title {
+    padding: 5% 0 25px;
+    margin: auto;
+    width: 360px;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.items {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    max-width: 360px;
+    margin: 0 auto 15px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+
+  h3 {
+      margin: 0 auto;
+  }
+
+  .btnClass {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: rgb(238, 241, 238);
+    border: 0;
+    padding: 15px;
+    color: rgb(14, 12, 12);
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    margin-left: 45%;
+  }
+
+.opsBtn {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background: rgb(70, 221, 70);
+  border: 0;
+  padding: 15px;
+  color: rgb(236, 226, 226);
+  font-size: 14px;
+  -webkit-transition: all 0.3 ease;
+  transition: all 0.3 ease;
+  cursor: pointer;
+  margin: 20px;
+}
+.closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}

@@ -1,0 +1,22 @@
+
+<!-- Modal -->
+<div class="modal fade" id="alertPopUp" #alertPopUp
+tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true"
+data-toggle="modal" data-target="#alertPopUp" (click)="modalEventHandler('OK')">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content customStyle">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLongTitle">Alert</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modalEventHandler('OK')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5> {{message}} </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="modalEventHandler('OK')">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
