@@ -2,6 +2,9 @@
   <div class="form">
         <form class="profile-form" [formGroup]="profileForm">
             <div>
+                <div class="profile-userpic">
+					          <img src='http://localhost:8000/{{avatarImage}}' class="rounded img-responsive avatar" alt="">
+				        </div>
                 <input type="file" (change)="avatarUpload($event)"/>
             </div>
             <div>

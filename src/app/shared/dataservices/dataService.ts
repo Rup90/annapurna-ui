@@ -14,7 +14,7 @@ export class DataService {
     }
 
     public getFromLocalStorage(key) {
-        localStorage.getItem(key);
+        return localStorage.getItem(key);
     }
 
     public deCodeToken() {

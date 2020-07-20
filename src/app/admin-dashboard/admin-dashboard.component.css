@@ -20,3 +20,13 @@
   h3 {
       margin: 0 auto;
   }
+
+  .image {
+      width: 200px;
+      height: auto;
+  }
+
+  .productImage {
+      width: 100px;
+      height: auto;
+  }

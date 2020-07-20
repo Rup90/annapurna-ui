@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 import { Stream } from 'stream';
+import { DataService } from '../../dataservices/dataService';
 
 export interface Upload {
   filename: string;
@@ -23,7 +24,8 @@ export class MyProfileComponent implements OnInit {
   public isLoading =  false;
   public avatar;
   public avatarUploadMsg = '';
-  constructor(private formBuilder: FormBuilder, private apollo: Apollo, private http: HttpClient) { }
+  public avatarImage = '';
+  constructor(private formBuilder: FormBuilder, private apollo: Apollo, private http: HttpClient, private dataServ: DataService) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -50,6 +52,7 @@ export class MyProfileComponent implements OnInit {
           }
           `
           }).subscribe(( res ) => {
+            this.profileFormData = [];
             if (res.data.getUserInfo) {
               this.profileFormData = res.data.getUserInfo;
               this.patchProfileFormData();
@@ -92,6 +95,7 @@ export class MyProfileComponent implements OnInit {
       phoneNumber: this.profileFormData.phoneNumber,
       address: this.profileFormData.address
     });
+    this.avatarImage = this.profileFormData.avatar;
     this.isLoading = false;
   }
 
@@ -148,11 +152,11 @@ export class MyProfileComponent implements OnInit {
     this.avatarUploadMsg = '';
     if (!this.avatar) {
       this.avatarUploadMsg = 'Please choose a file';
+    } else if (!type.exec(this.avatar.name)) {
+      this.avatarUploadMsg = 'File extension is invalid, allowed extensions are: JPG/JPEG/PNG';
     }
-    // else if (!type.exec(this.avatar.name)) {
-    //   this.avatarUploadMsg = 'File extension is invalid, allowed extensions are: PDF, JPG/JPEG/PNG, DOC, ZIP/RAR';
-    // }
     else {
+      this.isLoading = true;
       this.uploadImageMutation();
     }
   }
@@ -161,21 +165,10 @@ export class MyProfileComponent implements OnInit {
    * public upoad image mutation
    */
   public uploadImageMutation() {
-    console.log('image');
-
-    // const query = `
-    //   mutation addProfilePicture($file: Upload!) {
-    //     addProfilePicture(file: $file) {
-    //           filename
-    //           mimetype
-    //           filesize
-    //       }
-    //   }
-    // `;
 
     const operation = {
       // tslint:disable-next-line:object-literal-key-quotes
-      'query': 'mutation ($picture: Upload!) { addProfilePicture(picture: $picture) { res }}',
+      'query': 'mutation ($picture: Upload!) { addProfilePicture(picture: $picture) {status, avatar }}',
       // tslint:disable-next-line:object-literal-key-quotes
       'variables': {
         picture: null
@@ -190,41 +183,21 @@ export class MyProfileComponent implements OnInit {
     fd.append('operations', JSON.stringify(operation));
     fd.append('map', JSON.stringify(mapping));
     fd.append('0', this.avatar, this.avatar.name);
-    this.http.post('http://localhost:8000/graphql', fd).subscribe(res => {
-      console.log(res);
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
+    };
+    this.http.post('http://localhost:8000/graphql', fd, header ).subscribe((res: any) => {
+     console.log(res);
+     const { status, avatar } = res.data.addProfilePicture;
+     if (status === 200 && avatar) {
+       this.avatarImage = avatar;
+     }
+     this.isLoading = false;
     }, (err) => {
+      this.isLoading = false;
       console.log(err);
-    })
-    // this.apollo.mutate<any>({
-    //   mutation: gql`
-    //     mutation {
-    //       addProfilePicture(picture: {
-    //         createReadStream: "${fd}",
-    //         filename: "${this.avatar.name}"
-    //       })
-    //       }
-    //     `
-    //     }).subscribe(( res ) => {
-    //       console.log(res);
-    //     }, (errors) => {
-    //       console.log(errors);
-    //     });
-
-    // this.apollo.mutate<any>({
-    //   mutation: gql`
-    //     mutation {
-    //       addProfilePicture(file: {
-    //         size: "${this.avatar.size}",
-    //         name: "${this.avatar.name}",
-    //         type: "${this.avatar.type}"
-    //       })
-    //       }
-    //     `
-    //     }).subscribe(( res ) => {
-    //       console.log(res);
-    //     }, (errors) => {
-    //       console.log(errors);
-    //     });
+    });
   }
 
 }

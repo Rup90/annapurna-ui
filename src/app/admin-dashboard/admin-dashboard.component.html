@@ -1,4 +1,4 @@
-<div class="dashboard-container" *ngIf="allItems.length>0">
+<div class="dashboard-container" *ngIf="!isAddItem">
     <div class="title">
         <h3> List of Items Added </h3>
     </div>
@@ -6,6 +6,42 @@
         <ng-container>
             <p> Name :- {{item.itemName}} </p>
             <p> Category :- {{item.category}} </p>
+            <div class="product-image">
+			        <img src='http://localhost:8000/{{item?.itemImage}}' class="rounded img-responsive productImage" alt="Product">
+			</div>
         </ng-container>
     </div>
+    <button class="btnClass" type="button" (click)="addItems()">Add Items</button>
+</div>
+
+
+<div class = 'Container home-page' *ngIf="isAddItem">
+     <div class="form">
+        <a href="javascript:void(0)" class="closebtn" (click)="closeBtn()">&times;</a>
+         <form class="item-form" [formGroup]="addItemsInDB">
+            <div>
+                 <select formControlName="category" class="form-control selectDiv" id="items" 
+                 required>
+                        <option disabled hidden value="">Please Select</option>
+                        <option *ngFor="let item of itemCategories" value="{{item.key}}">
+                        {{item.value}}</option>
+                </select>
+            </div>
+            <div>
+              <input type="text"
+                placeholder="Item Name"
+                class="form-control"
+                id="itemName"
+                formControlName="itemName"
+                id="itemName"/>
+            </div>
+            <div>
+                <div class="profile-userpic">
+					          <img src='{{productLocalImage}}' class="rounded img-responsive image" alt="">
+				</div>
+                <input type="file" (change)="uploadProductImg($event)"/>
+            </div>
+            <button type="submit" (click)="saveItem()">Save</button>
+        </form>
+     </div>
 </div>
