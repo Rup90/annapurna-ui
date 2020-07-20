@@ -2,6 +2,9 @@
   <div class="form">
         <form class="profile-form" [formGroup]="profileForm">
             <div>
+                <input type="file" (change)="avatarUpload($event)"/>
+            </div>
+            <div>
               <input type="text"
                 placeholder="First Name"
                 class="form-control"
