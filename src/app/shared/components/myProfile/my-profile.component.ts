@@ -53,6 +53,7 @@ export class MyProfileComponent implements OnInit {
           `
           }).subscribe(( res ) => {
             this.profileFormData = [];
+            console.log(res);
             if (res.data.getUserInfo) {
               this.profileFormData = res.data.getUserInfo;
               this.patchProfileFormData();

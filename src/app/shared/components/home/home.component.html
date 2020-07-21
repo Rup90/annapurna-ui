@@ -1,43 +1,70 @@
 <div class = 'Container home-page' *ngIf="isAddEdit">
 
-    <div class="form">
-        <a href="javascript:void(0)" class="closebtn" (click)="closeBtn()">&times;</a>
-         <form class="item-form" [formGroup]="selectItemForm">
-            <div>
-                 <select formControlName="itemSelectedId" class="form-control selectDiv" id="items" 
-                 (click)="chooseItem($event)"
-                 required>
-                        <option disabled hidden value="">Please Select</option>
-                        <option *ngFor="let item of allItems" value="{{item.id}}">
-                        {{item.itemName}}</option>
-                </select>
+    <div class="item-form">
+         <a href="javascript:void(0)" class="closebtn" (click)="closeBtn()">&times;</a>
+        <form [formGroup]="selectItemForm">
+            <div class="form-group row">
+                <label for="Item" class="col-sm-3 col-form-label">Item<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <select formControlName="itemSelectedId" class="form-control selectDiv" id="items" 
+                    (click)="chooseItem($event)"
+                    required>
+                            <option disabled hidden value="">Please Select</option>
+                            <option *ngFor="let item of allItems" value="{{item.id}}">
+                            {{item.itemName}}</option>
+                    </select>
+                </div>
             </div>
-            <div>
-              <input type="text"
-                placeholder="Category"
-                class="form-control"
-                id="category"
-                formControlName="category"
-                id="category" readonly/>
+            <div class="form-group row">
+                <label for="Category" class="col-sm-3 col-form-label">Category:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control"   formControlName="category" placeholder="Category" readonly>
+                </div>
             </div>
-            <div>
-              <input type="text"
-                placeholder="quantity"
-                class="form-control"
-                formControlName="quantity"
-                id="quantity"/>
+            <div class="form-group row">
+                <label for="Quantity" class="col-sm-3 col-form-label">Quantity<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity">
+                </div>
             </div>
-            <div>
-              <input type="text"
-                placeholder="Price per kg"
-                class="form-control"
-                formControlName="pricePerKg"
-                id="pricePerKg"/>
+            <div class="form-group row">
+                <label for="Price" class="col-sm-3 col-form-label">Price<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="pricePerKg" placeholder="Price per kg">
+                </div>
             </div>
-            <button type="submit" *ngIf="!isEditable" (click)="selectItems()">Add</button>
-            <button type="submit" *ngIf="isEditable" (click)="updateItem()">Update</button>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Pick Up Date<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                     <div class="input-group">
+                        <input autocomplete="date-field" formControlName="pickupDate"
+                                                bsDatepicker
+                                                [bsConfig]="{ dateInputFormat: 'MM-DD-YYYY', showWeekNumbers: false, containerClass: 'theme-dark-blue cal-right' }"
+                                                type="text" #dp="bsDatepicker" class="form-control" id="datePicker"
+                                                placeholder="Start Date" [minDate]="today"
+                                                required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" type="button"></button>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Location<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="location" placeholder="Pick up location">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Time<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="time" class="form-control" formControlName="pickupTime" placeholder="Pick up time">
+                </div>
+            </div>
+            <button type="submit" class='addEditBtn' *ngIf="!isEditable" (click)="selectItems()">Add</button>
+            <button type="submit" class='addEditBtn' *ngIf="isEditable" (click)="updateItem()">Update</button>
         </form>
-     </div>
+    </div>
 </div>
 
 <div *ngIf="!isAddEdit">

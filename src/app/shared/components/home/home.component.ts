@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 
@@ -20,9 +21,11 @@ export class HomeComponent implements OnInit {
   public deletedItem;
   public isAlertPopupOepn = false;
   public alertMsg = '';
-  constructor(private apollo: Apollo, private formBuilder: FormBuilder, private cd: ChangeDetectorRef) { }
+  public today: Date;
+  constructor(private apollo: Apollo, private formBuilder: FormBuilder, private cd: ChangeDetectorRef, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+    this.today = new Date();
     this.initCall();
   }
 
@@ -43,9 +46,12 @@ export class HomeComponent implements OnInit {
       itemSelectedId: ['', Validators.required],
       itemName: ['', Validators.required],
       id: ['', Validators.required],
+      pickupDate: ['', Validators.required],
       category: ['', Validators.required],
       quantity: ['', Validators.required],
-      pricePerKg: ['', Validators.required]
+      pricePerKg: ['', Validators.required],
+      location: ['', Validators.required],
+      pickupTime: ['', Validators.required]
     });
     // this.fetchUserData();
   }
@@ -65,11 +71,13 @@ export class HomeComponent implements OnInit {
               id
               quantity
               pricePerKg
+              pickupDate
+              location
+              pickupTime
             }
           }
           `
           }).subscribe(( res ) => {
-            console.log('>>>>>>>>', res);
             this.totalSelectedItems = [];
             if (res.data.fetchAllSelectedItems) {
               this.totalSelectedItems = res.data.fetchAllSelectedItems;
@@ -120,7 +128,7 @@ export class HomeComponent implements OnInit {
    */
   public selectItems() {
     this.isLoading = true;
-    const { itemName, category, id, quantity, pricePerKg } = this.selectItemForm.value;
+    const { itemName, category, id, quantity, pricePerKg, pickupDate, location, pickupTime } = this.selectItemForm.value;
     try {
       this.apollo.mutate<any>({
         mutation: gql`
@@ -130,17 +138,24 @@ export class HomeComponent implements OnInit {
               category: "${category}",
               id: "${id}",
               quantity: "${quantity}",
-              pricePerKg: "${pricePerKg}"
+              pricePerKg: "${pricePerKg}",
+              pickupDate: "${this.datePipe.transform(pickupDate, 'MM-dd-yyyy')}",
+              location: "${location}",
+              pickupTime: "${pickupTime}"
             }) {
                   itemName
                   category
                   id
                   quantity
                   pricePerKg
+                  pickupDate
+                  location
+                  pickupTime
                 }
             }
           `
           }).subscribe(( res ) => {
+            console.log('res ==>', res);
             this.totalSelectedItems = [];
             if (res) {
                   this.isLoading = false;
@@ -154,7 +169,7 @@ export class HomeComponent implements OnInit {
            console.log(errors);
           });
       } catch (err) {
-
+        console.log(err);
     }
 
   }
@@ -184,7 +199,10 @@ export class HomeComponent implements OnInit {
           itemName: item.itemName,
           itemSelectedId: item.id,
           quantity: item.quantity,
-          pricePerKg: item.pricePerKg
+          pricePerKg: item.pricePerKg,
+          pickupDate: item.pickupDate,
+          location: item.location,
+          pickupTime: item.pickupTime
         });
         this.isAddEdit = true;
         this.selectItemForm.get('itemSelectedId').disable();
@@ -201,7 +219,7 @@ export class HomeComponent implements OnInit {
    public updateItem() {
     this.isLoading = true;
     this.totalSelectedItems = [];
-    const { itemName, category, id, quantity, pricePerKg } = this.selectItemForm.value;
+    const { itemName, category, id, quantity, pricePerKg, pickupDate, location, pickupTime } = this.selectItemForm.value;
     try {
       this.apollo.mutate<any>({
         mutation: gql`
@@ -211,13 +229,19 @@ export class HomeComponent implements OnInit {
               category: "${category}",
               id: "${id}",
               quantity: "${quantity}",
-              pricePerKg: "${pricePerKg}"
+              pricePerKg: "${pricePerKg}",
+              pickupDate: "${this.datePipe.transform(pickupDate, 'MM-dd-yyyy')}",
+              location: "${location}",
+              pickupTime: "${pickupTime}"
             }) {
                   itemName
                   category
                   id
                   quantity
                   pricePerKg
+                  pickupDate
+                  location
+                  pickupTime
                 }
             }
           `
@@ -258,6 +282,9 @@ export class HomeComponent implements OnInit {
                   id
                   quantity
                   pricePerKg
+                  pickupDate
+                  location
+                  pickupTime
                 }
             }
           `

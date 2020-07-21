@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css";
+/* @import "~bootstrap/dist/css/bootstrap.css"; */
 body {
     background: #76b852; /* fallback for old browsers */
     background: -webkit-linear-gradient(right, #76b852, #8DC26F);
@@ -23,7 +23,7 @@ body {
     margin: auto;
   }
 
-  .registration-page, .home-page {
+  .registration-page {
     width: 500px;
     padding: 8% 0 0;
     margin: auto;
