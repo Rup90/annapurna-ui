@@ -132,21 +132,22 @@ export class HomeComponent implements OnInit {
               quantity: "${quantity}",
               pricePerKg: "${pricePerKg}"
             }) {
-                  itemName,
-                  message,
-                  status
+                  itemName
+                  category
+                  id
+                  quantity
+                  pricePerKg
                 }
             }
           `
           }).subscribe(( res ) => {
+            this.totalSelectedItems = [];
             if (res) {
-                const { status, message } = res.data.selectItem;
-                if (status === 200) {
-                  this.isAddEdit = false;
                   this.isLoading = false;
-                  this.alertMsg = message;
+                  this.alertMsg = 'Item Added';
                   this.isAlertPopupOepn = true;
-                }
+                  this.isAddEdit = false;
+                  this.totalSelectedItems = res.data.selectItem;
             }
 
           }, (errors) => {
@@ -212,23 +213,23 @@ export class HomeComponent implements OnInit {
               quantity: "${quantity}",
               pricePerKg: "${pricePerKg}"
             }) {
-                  itemName,
-                  message,
-                  status
+                  itemName
+                  category
+                  id
+                  quantity
+                  pricePerKg
                 }
             }
           `
           }).subscribe(( res ) => {
             console.log(res.data);
             if (res) {
-                const { status, message } = res.data.updatetItem;
-                if (status === 200) {
+                  this.totalSelectedItems = res.data.updatetItem;
                   this.isAddEdit = false;
                   this.isLoading = false;
                   this.isEditable = false;
-                  this.alertMsg = message;
+                  this.alertMsg = 'Item Updated';
                   this.isAlertPopupOepn = true;
-                }
             }
 
           }, (errors) => {
@@ -252,22 +253,22 @@ export class HomeComponent implements OnInit {
               itemName: "${this.deletedItem.itemName}",
               id: "${this.deletedItem.id}"
             }) {
-                  itemName,
-                  message,
-                  status
+                  itemName
+                  category
+                  id
+                  quantity
+                  pricePerKg
                 }
             }
           `
           }).subscribe(( res ) => {
             console.log(res.data);
             if (res) {
-                const { status, message } = res.data.deletetItem;
-                if (status === 200) {
-                  this.isAddEdit = false;
-                  this.isLoading = false;
-                  this.alertMsg = message;
-                  this.isAlertPopupOepn = true;
-                }
+                this.totalSelectedItems = res.data.deletetItem;
+                this.isLoading = false;
+                this.isAddEdit = false;
+                this.alertMsg = 'Item Deleted';
+                this.isAlertPopupOepn = true;
             }
 
           }, (errors) => {
@@ -297,7 +298,6 @@ export class HomeComponent implements OnInit {
       this.isAlertPopupOepn = false;
       console.log(evt);
       this.alertMsg = '';
-      this.initCall();
     }
   }
 
