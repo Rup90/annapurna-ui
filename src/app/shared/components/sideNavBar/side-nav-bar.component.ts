@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataService } from '../../dataservices/dataService';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -9,10 +10,9 @@ import { Router } from '@angular/router';
 export class SideNavBarComponent implements OnInit {
 
   public url: string;
-  constructor(private router: Router) { }
+  constructor(private router: Router, public dataServ: DataService) { }
 
   ngOnInit(): void {
-    this.url = this.router.url;
   }
 
   public openNav() {
@@ -25,7 +25,10 @@ export class SideNavBarComponent implements OnInit {
 
   public clickTonavigate(path) {
     document.getElementById('mySidenav').style.width = '0';
-    this.router.navigate([`${this.url}/${path}`]);
+    const urlFullPath = this.router.url;
+    const splitedPath = urlFullPath.split('/')[1].split('/')[0];
+    console.log(splitedPath);
+    this.router.navigate([`${splitedPath}/${path}`]);
   }
 
   public logout() {

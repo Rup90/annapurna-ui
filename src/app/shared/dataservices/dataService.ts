@@ -6,9 +6,7 @@ import { decode } from 'jsonwebtoken';
 
 export class DataService {
 
-    /**
-     * Save value in Localstorage
-     */
+    public saveObj = {};
     public saveIntoLocalStorage(key, value) {
         localStorage.setItem(key, value);
     }
@@ -17,9 +15,11 @@ export class DataService {
         return localStorage.getItem(key);
     }
 
-    public deCodeToken() {
-        const token = this.getFromLocalStorage('TOKEN');
-        // const decoded = decode(token, {complete: true});
-        // console.log(decoded);
+    public saveData(key, value) {
+        this.saveObj[key] = value;
+    }
+
+    public getData(key) {
+        return this.saveObj[key];
     }
 }

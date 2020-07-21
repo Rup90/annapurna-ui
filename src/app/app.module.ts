@@ -7,10 +7,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { connectApiLink } from './app.graphql.module';
+import {  SideNavBarComponent } from './shared/components/sideNavBar/side-nav-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SideNavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +31,6 @@ import { connectApiLink } from './app.graphql.module';
       };
     },
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, SideNavBarComponent]
 })
 export class AppModule { }
