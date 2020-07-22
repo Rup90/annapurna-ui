@@ -11,6 +11,17 @@ import { connectApiLink } from './app.graphql.module';
 import {  SideNavBarComponent } from './shared/components/sideNavBar/side-nav-bar.component';
 import { DatePipe } from '@angular/common';
 
+
+const defaultOptions = {
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all',
+  },
+  mutate: {
+    errorPolicy: 'all',
+  },
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +42,7 @@ import { DatePipe } from '@angular/common';
       return {
         cache: new InMemoryCache(),
         link: connectApiLink,
+        defaultOptions
       };
     },
   }, DatePipe],

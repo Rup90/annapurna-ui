@@ -70,7 +70,6 @@ export class AdminDashboardComponent implements OnInit {
     }).subscribe(({ data, loading }) => {
       if (data) {
         this.allItems = data.fetchAllItems;
-        console.log(this.allItems);
       }
     });
   }

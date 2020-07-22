@@ -66,7 +66,6 @@ export class LoginComponent implements OnInit {
                }
           `
           }).subscribe(( res ) => {
-            console.log(res);
             if (res) {
               const loginData = res.data.login;
               this.dataServ.saveIntoLocalStorage('TOKEN', loginData.token);

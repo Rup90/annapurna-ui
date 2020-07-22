@@ -27,7 +27,6 @@ export class SideNavBarComponent implements OnInit {
     document.getElementById('mySidenav').style.width = '0';
     const urlFullPath = this.router.url;
     const splitedPath = urlFullPath.split('/')[1].split('/')[0];
-    console.log(splitedPath);
     this.router.navigate([`${splitedPath}/${path}`]);
   }
 

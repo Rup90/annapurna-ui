@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
 import { Stream } from 'stream';
 import { DataService } from '../../dataservices/dataService';
-
+import { Subscription } from 'rxjs';
 export interface Upload {
   filename: string;
   mimetype: string;
@@ -17,7 +17,7 @@ export interface Upload {
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.css']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnInit, OnDestroy {
 
   public profileForm: FormGroup;
   public profileFormData: any;
@@ -25,6 +25,7 @@ export class MyProfileComponent implements OnInit {
   public avatar;
   public avatarUploadMsg = '';
   public avatarImage = '';
+  public profileSubscription: Subscription;
   constructor(private formBuilder: FormBuilder, private apollo: Apollo, private http: HttpClient, private dataServ: DataService) { }
 
   ngOnInit(): void {
@@ -53,14 +54,12 @@ export class MyProfileComponent implements OnInit {
           `
           }).subscribe(( res ) => {
             this.profileFormData = [];
-            console.log(res);
             if (res.data.getUserInfo) {
               this.profileFormData = res.data.getUserInfo;
               this.patchProfileFormData();
             }
           }, (errors) => {
             this.isLoading = false;
-            console.log(errors);
             alert('Something is wrong');
           });
     } catch (err) {
@@ -106,9 +105,8 @@ export class MyProfileComponent implements OnInit {
   public updateProfile() {
     this.isLoading = true;
     const { firstName, lastName, password, emailId, role, phoneNumber, address } = this.profileForm.value;
-    console.log(firstName, lastName, password, role, phoneNumber, address);
     try {
-      this.apollo.mutate<any>({
+      this.profileSubscription = this.apollo.mutate<any>({
         mutation: gql`
           mutation {
             updateUserInfo(userInput: {
@@ -148,7 +146,6 @@ export class MyProfileComponent implements OnInit {
    */
   public avatarUpload(event) {
     this.avatar = event.target.files[0] as File;
-    console.log('excelFileData ==>', this.avatar);
     const type = /(\.jpg|\.jpeg|\.png)$/i;
     this.avatarUploadMsg = '';
     if (!this.avatar) {
@@ -189,7 +186,6 @@ export class MyProfileComponent implements OnInit {
         .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
     };
     this.http.post('http://localhost:8000/graphql', fd, header ).subscribe((res: any) => {
-     console.log(res);
      const { status, avatar } = res.data.addProfilePicture;
      if (status === 200 && avatar) {
        this.avatarImage = avatar;
@@ -197,8 +193,9 @@ export class MyProfileComponent implements OnInit {
      this.isLoading = false;
     }, (err) => {
       this.isLoading = false;
-      console.log(err);
     });
   }
+
+  ngOnDestroy() { }
 
 }

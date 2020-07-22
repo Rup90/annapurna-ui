@@ -87,12 +87,10 @@ export class DashboardComponent implements OnInit {
             }
           }, (errors) => {
             this.isLoading = false;
-            console.log(errors);
             alert('Something is wrong');
           });
     } catch (err) {
       this.isLoading = false;
-      console.log(err);
     }
   }
 
@@ -156,7 +154,6 @@ export class DashboardComponent implements OnInit {
             }
           `
           }).subscribe(( res ) => {
-            console.log('res ==>', res);
             this.totalSelectedItems = [];
             if (res) {
                   this.isLoading = false;
@@ -167,9 +164,11 @@ export class DashboardComponent implements OnInit {
             }
 
           }, (errors) => {
-           console.log(errors);
+            this.isLoading = false;
+            console.log(errors);
           });
       } catch (err) {
+        this.isLoading = false;
         console.log(err);
     }
 
@@ -247,7 +246,6 @@ export class DashboardComponent implements OnInit {
             }
           `
           }).subscribe(( res ) => {
-            console.log(res.data);
             if (res) {
                   this.totalSelectedItems = res.data.updatetItem;
                   this.isAddEdit = false;
@@ -258,10 +256,11 @@ export class DashboardComponent implements OnInit {
             }
 
           }, (errors) => {
-           console.log(errors);
+            this.isLoading = false;
+            console.log(errors);
           });
       } catch (err) {
-
+        this.isLoading = false;
     }
    }
 
@@ -290,7 +289,6 @@ export class DashboardComponent implements OnInit {
             }
           `
           }).subscribe(( res ) => {
-            console.log(res.data);
             if (res) {
                 this.totalSelectedItems = res.data.deletetItem;
                 this.isLoading = false;
@@ -300,9 +298,11 @@ export class DashboardComponent implements OnInit {
             }
 
           }, (errors) => {
-           console.log(errors);
+            this.isLoading = false;
+            console.log(errors);
           });
       } catch (err) {
+        this.isLoading = false;
     }
    }
 
@@ -324,7 +324,6 @@ export class DashboardComponent implements OnInit {
   public getAlertEvent(evt) {
     if (evt) {
       this.isAlertPopupOepn = false;
-      console.log(evt);
       this.alertMsg = '';
     }
   }
