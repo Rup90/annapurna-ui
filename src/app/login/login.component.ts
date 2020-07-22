@@ -71,13 +71,14 @@ export class LoginComponent implements OnInit {
               const loginData = res.data.login;
               this.dataServ.saveIntoLocalStorage('TOKEN', loginData.token);
               if (loginData.role === 'ADMIN') {
-                this.router.navigate(['/admin']);
+                this.router.navigate(['/admin/home']);
               } else {
-                this.router.navigate(['/user']);
+                this.router.navigate(['/user/home']);
               }
             }
           }, (errors) => {
-            alert('Something is wrong');
+            // alert('Something is wrong');
+            console.log(errors);
           });
     } catch (err) {
 

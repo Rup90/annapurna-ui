@@ -11,12 +11,20 @@ const routes: Routes = [
         loadChildren: () => import('../app/registration/registration.module').then(m => m.RegistrationModule)
     },
     {
-        path: 'user',
+        path: 'user/home',
         loadChildren: () => import('../app/dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
-        path: 'admin',
+        path: 'admin/home',
         loadChildren: () => import('../app/admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
+    },
+    {
+        path:  'admin/profile',
+        loadChildren: () => import('../app/shared/components/myProfile/my-profile.module').then(m => m.MyProfileModule)
+    },
+    {
+        path:  'user/profile',
+        loadChildren: () => import('../app/shared/components/myProfile/my-profile.module').then(m => m.MyProfileModule)
     },
     {
         path: '',

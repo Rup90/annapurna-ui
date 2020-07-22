@@ -1,2 +1,106 @@
 
-<router-outlet><router-outlet>
+<div class = 'Container home-page' *ngIf="isAddEdit">
+
+    <div class="item-form">
+         <a href="javascript:void(0)" class="closebtn" (click)="closeBtn()">&times;</a>
+        <form [formGroup]="selectItemForm">
+            <div class="form-group row">
+                <label for="Item" class="col-sm-3 col-form-label">Item<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <select formControlName="itemSelectedId" class="form-control selectDiv" id="items" 
+                    (click)="chooseItem($event)"
+                    required>
+                            <option disabled hidden value="">Please Select</option>
+                            <option *ngFor="let item of allItems" value="{{item.id}}">
+                            {{item.itemName}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Category" class="col-sm-3 col-form-label">Category:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control"   formControlName="category" placeholder="Category" readonly>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Quantity" class="col-sm-3 col-form-label">Quantity<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Price" class="col-sm-3 col-form-label">Price<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="pricePerKg" placeholder="Price per kg">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Pick Up Date<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                     <div class="input-group">
+                        <input autocomplete="date-field" formControlName="pickupDate"
+                                                bsDatepicker
+                                                [bsConfig]="{ dateInputFormat: 'MM-DD-YYYY', showWeekNumbers: false, containerClass: 'theme-dark-blue cal-right' }"
+                                                type="text" #dp="bsDatepicker" class="form-control" id="datePicker"
+                                                placeholder="Start Date" [minDate]="today"
+                                                required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" type="button"></button>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Location<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" formControlName="location" placeholder="Pick up location">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Date" class="col-sm-3 col-form-label">Time<b class="star">*</b>:</label>
+                <div class="col-sm-9">
+                    <input type="time" class="form-control" formControlName="pickupTime" placeholder="Pick up time">
+                </div>
+            </div>
+            <button type="submit" class='addEditBtn' *ngIf="!isEditable" (click)="selectItems()">Add</button>
+            <button type="submit" class='addEditBtn' *ngIf="isEditable" (click)="updateItem()">Update</button>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="!isAddEdit">
+    <div class="item-container" *ngIf="totalSelectedItems.length>0">
+        <div class="title">
+            <h3> List of Items Added </h3>
+        </div>
+
+        <div class="container">
+            <div class="row">
+            <div class="items" *ngFor="let item of totalSelectedItems;">
+            <div class="col-sm">
+                <p> Name :- {{item.itemName}} </p>
+                <p> Category :- {{item.category}} </p>
+                <button class="opsBtn" type="button" (click)="itemOpetions('edit', item)">Update</button>
+                <button class="opsBtn" type="button" (click)="itemOpetions('del', item)">Delete</button>
+            </div>
+            </div>
+             
+            </div>
+        </div>
+    </div>
+    <div class="item-container" *ngIf="totalSelectedItems.length===0">
+        <div class="items">
+            <p> No Item you have added </p>
+        </div>
+    </div>
+    <button class="btnClass" type="button" (click)="addItems()">Add Items</button>
+
+</div>
+
+ <div id="overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <br />
+            Loading...
+</div>
+<app-alert-popup *ngIf="isAlertPopupOepn" [message]="alertMsg" (emitEvent)="getAlertEvent($event)"></app-alert-popup>
+<app-confirm-popup *ngIf="isConfirmPopupOepn" (eventHandler)="getPopupEvent($event)"></app-confirm-popup>

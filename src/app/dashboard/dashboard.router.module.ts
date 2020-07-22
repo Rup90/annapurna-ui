@@ -6,19 +6,7 @@ import { MyProfileComponent } from '../shared/components/myProfile/my-profile.co
 const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent,
-    children: [
-      {
-        path:  'profile',
-        loadChildren: () => import('../shared/components/myProfile/my-profile.module').then(m => m.MyProfileModule)
-        // component: MyProfileComponent
-      },
-      {
-        path:  'home',
-        loadChildren: () => import('../shared/components/home/home.module').then(m => m.HomwModule)
-        // component: HomeComponent
-      }
-    ]
+    component: DashboardComponent
   }
 ];
 
