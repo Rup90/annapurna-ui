@@ -75,8 +75,9 @@ export class RegistrationComponent implements OnInit {
               role: "${role}"
             }) {
                     status,
-                    message,
+                    message
                     email
+                    mailInfo
                   }
                }
           `
