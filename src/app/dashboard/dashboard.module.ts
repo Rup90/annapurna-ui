@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard.component';
 import { AlertPopupComponent } from '../shared/components/alert/alert.component';
 import { ConfirmPopupComponent } from '../shared/components/confirm-popup/confirm-popup.component';
 import { AddEditComponent } from '../shared/components/add-edit/add-edit.component';
+import { NotificationService } from '../shared/dataservices/notification.service';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { AddEditComponent } from '../shared/components/add-edit/add-edit.compone
     ReactiveFormsModule,
     BsDatepickerModule.forRoot(),
     DashboardRoutingModule
-  ]
+  ],
+  providers: [NotificationService]
 })
 export class DashboardModule { }

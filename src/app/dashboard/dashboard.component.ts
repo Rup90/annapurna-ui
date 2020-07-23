@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
+import { NotificationService } from '../shared/dataservices/notification.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,9 +22,12 @@ export class DashboardComponent implements OnInit {
   public isAlertPopupOepn = false;
   public alertMsg = '';
   public itemData: [];
-  constructor(private apollo: Apollo, private cd: ChangeDetectorRef, private datePipe: DatePipe) { }
+  constructor(private apollo: Apollo, private cd: ChangeDetectorRef, private datePipe: DatePipe, public notifyServ: NotificationService) { }
 
   ngOnInit(): void {
+    this.notifyServ.notifydata.subscribe(res => {
+      console.log('res -->', res);
+    })
     this.initCall();
   }
 
@@ -81,7 +85,6 @@ export class DashboardComponent implements OnInit {
       this.isAddEdit = true;
   }
 
- 
    /**
     * Item Update/Delete opetions
     */

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../dataservices/dataService';
+import { NotificationService } from '../../dataservices/notification.service';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -10,7 +11,7 @@ import { DataService } from '../../dataservices/dataService';
 export class SideNavBarComponent implements OnInit {
 
   public url: string;
-  constructor(private router: Router, public dataServ: DataService) { }
+  constructor(private router: Router, public dataServ: DataService, public notifyServ: NotificationService) { }
 
   ngOnInit(): void {
   }
@@ -31,6 +32,7 @@ export class SideNavBarComponent implements OnInit {
   }
 
   public logout() {
+    this.notifyServ.closeNotification();
     localStorage.removeItem('TOKEN');
     this.router.navigate(['']);
   }

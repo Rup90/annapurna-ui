@@ -1,7 +1,10 @@
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
-
+import { split } from 'apollo-link';
+import { HttpLink } from 'apollo-angular-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
@@ -20,5 +23,24 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-export const connectApiLink = authLink.concat(httpLink);
+
+const ws = new WebSocketLink({
+  uri: `ws://localhost:8000/subscriptions`,
+  options: {
+    reconnect: true
+  }
+});
+
+// using the ability to split links, you can send data to each link
+// depending on what kind of operation is being sent
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const def = getMainDefinition(query);
+    return def.kind === 'OperationDefinition' && def.operation === 'subscription';
+  },
+  ws,
+  authLink.concat(httpLink),
+);
+export const connectApiLink = link;
 

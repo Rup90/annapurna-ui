@@ -10,6 +10,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { connectApiLink } from './app.graphql.module';
 import {  SideNavBarComponent } from './shared/components/sideNavBar/side-nav-bar.component';
 import { DatePipe } from '@angular/common';
+import { NotificationService } from './shared/dataservices/notification.service';
 
 
 const defaultOptions = {
@@ -45,7 +46,7 @@ const defaultOptions = {
         defaultOptions
       };
     },
-  }, DatePipe],
+  }, DatePipe, NotificationService],
   bootstrap: [AppComponent, SideNavBarComponent]
 })
 export class AppModule { }
