@@ -75,16 +75,52 @@
         </div>
 
         <div class="container">
-            <div class="row">
-            <div class="items" *ngFor="let item of totalSelectedItems;">
-            <div class="col-sm">
-                <p> Name :- {{item.itemName}} </p>
-                <p> Category :- {{item.category}} </p>
-                <button class="opsBtn" type="button" (click)="itemOpetions('edit', item)">Update</button>
-                <button class="opsBtn" type="button" (click)="itemOpetions('del', item)">Delete</button>
-            </div>
-            </div>
+            <!--<div class="row">
+                <div class="items" *ngFor="let item of totalSelectedItems;">
+                    <div class="col-sm">
+                        <p> Name :- {{item.itemName}} </p>
+                        <p> Category :- {{item.category}} </p>
+                        <button class="opsBtn" type="button" (click)="itemOpetions('edit', item)">Update</button>
+                        <button class="opsBtn" type="button" (click)="itemOpetions('del', item)">Delete</button>
+                    </div>
+                </div>
              
+            </div>-->
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <table class="table-striped table-bordered table-fixed table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th> Quantity (Kg.)</th>
+                            <th>Price(Per Kg.)</th>
+                            <th>Pickup Status</th>
+                            <th>Pickup Date</th>
+                            <th>Location</th>
+                            <th>Time </th>
+                            <th> Action </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of totalSelectedItems; let idx = index;">
+                            <td>{{item.itemName}}</td>
+                            <td>{{item.category}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.pricePerKg}}</td>
+                            <td>Pending</td>
+                            <td>{{item.pickupDate}}</td>
+                            <td>{{item.location}}</td>
+                            <td>{{item.pickupTime}}</td>
+                            <td>
+                                <span class="icon-holder"><a data-toggle="modal" data-target="#myModal2">
+                                <i class="fa fa-eye" aria-hidden="true"
+                                    (click)="itemOpetions('edit', item)"></i></a></span>
+                                <span class="icon-holder"><a (click)="itemOpetions('del', item)"><i class="fa fa-trash"
+                                    aria-hidden="true"></i></a></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

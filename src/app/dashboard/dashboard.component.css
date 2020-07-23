@@ -102,3 +102,10 @@
     margin-top: 8%;
   }
   
+  table {
+    background: #FFFFFF;
+  }
+
+  .icon-holder {
+    padding: 5px;
+  }
