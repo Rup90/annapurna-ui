@@ -6,10 +6,11 @@ import { DashboardRoutingModule } from './dashboard.router.module';
 import { DashboardComponent } from './dashboard.component';
 import { AlertPopupComponent } from '../shared/components/alert/alert.component';
 import { ConfirmPopupComponent } from '../shared/components/confirm-popup/confirm-popup.component';
+import { AddEditComponent } from '../shared/components/add-edit/add-edit.component';
 
 
 @NgModule({
-  declarations: [DashboardComponent, AlertPopupComponent, ConfirmPopupComponent],
+  declarations: [DashboardComponent, AlertPopupComponent, ConfirmPopupComponent, AddEditComponent],
   imports: [
     CommonModule,
     FormsModule,

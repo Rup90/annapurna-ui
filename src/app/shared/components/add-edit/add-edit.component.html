@@ -1,0 +1,83 @@
+<div class="modal fade right" id="addEditModal" tabindex="-1" role="dialog" aria-labelledby="addEditModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-slideout sliderWidth" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal('Close')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="item-form">
+            <form [formGroup]="selectItemForm">
+                <div class="form-group row">
+                    <label for="Item" class="col-sm-3 col-form-label">Item<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <select formControlName="itemSelectedId" class="form-control selectDiv" id="items" (click)="chooseItem($event)"
+                        required>
+                            <option disabled hidden value="">Please Select</option>
+                            <option *ngFor="let item of allItems" value="{{item.id}}">
+                                {{item.itemName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Category" class="col-sm-3 col-form-label">Category:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control"   formControlName="category" placeholder="Category" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Quantity" class="col-sm-3 col-form-label">Quantity<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" formControlName="quantity" placeholder="Quantity">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Price" class="col-sm-3 col-form-label">Price<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" formControlName="pricePerKg" placeholder="Price per kg">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Date" class="col-sm-3 col-form-label">Pick Up Date<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <input autocomplete="date-field" formControlName="pickupDate"
+                                bsDatepicker
+                                [bsConfig]="{ dateInputFormat: 'MM-DD-YYYY', showWeekNumbers: false, containerClass: 'theme-dark-blue cal-right' }"
+                                type="text" #dp="bsDatepicker" class="form-control" id="datePicker"
+                                placeholder="Start Date" [minDate]="today"
+                                required>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen" type="button"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Date" class="col-sm-3 col-form-label">Location<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" formControlName="location" placeholder="Pick up location">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="Date" class="col-sm-3 col-form-label">Time<b class="star">*</b>:</label>
+                    <div class="col-sm-9">
+                        <input type="time" class="form-control" formControlName="pickupTime" placeholder="Pick up time">
+                    </div>
+                </div>
+                <button type="submit" class='addEditBtn' *ngIf="!isEditable" (click)="addNewItems()">Add</button>
+                <button type="submit" class='addEditBtn' *ngIf="isEditable" (click)="updateItem()">Update</button>
+            </form>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+ <div id="overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <br />
+            Loading...
+</div>
