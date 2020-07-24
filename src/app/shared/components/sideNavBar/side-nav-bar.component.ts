@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../dataservices/dataService';
 import { NotificationService } from '../../dataservices/notification.service';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-side-nav-bar',
@@ -10,10 +11,13 @@ import { NotificationService } from '../../dataservices/notification.service';
 })
 export class SideNavBarComponent implements OnInit {
 
-  public url: string;
+  public isAdmin = false;
+
   constructor(private router: Router, public dataServ: DataService, public notifyServ: NotificationService) { }
 
   ngOnInit(): void {
+    const url = this.dataServ.getData('PATH') ?  this.dataServ.getData('PATH') : this.router.url;
+    this.isAdmin = url.includes('/admin');
   }
 
   public openNav() {

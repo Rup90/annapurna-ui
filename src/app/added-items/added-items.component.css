@@ -1,0 +1,22 @@
+ 
+  form {
+    margin-top: 8%;
+  }
+  
+  table {
+    background: #FFFFFF;
+  }
+
+  .icon-holder {
+    padding: 5px;
+  }
+
+  h3 {
+    margin: 0 auto;
+}
+
+.filterTxt {
+    color: #FFFFFF;
+    font-weight: 700;
+}
+

@@ -27,7 +27,8 @@ const authLink = setContext((_, { headers }) => {
 const ws = new WebSocketLink({
   uri: `ws://localhost:8000/subscriptions`,
   options: {
-    reconnect: true
+    reconnect: true,
+    timeout: 30000
   }
 });
 

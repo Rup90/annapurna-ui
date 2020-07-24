@@ -1,0 +1,66 @@
+
+    <div class="item-container" >
+        <div class="container">
+            <div class="row">
+                <label for="filter" class="col-md-1 col-form-label filterTxt">Filter:</label>
+                <div class="col-md-3">
+                    <select formControlName="role" class="form-control selectDiv" id="roleSets" (click)="chooseItem($event)">
+                        <option value="Pending">Pending</option>
+                        <option value="Picked">Picked</option>
+                        <option value="Changed">Change Price Request</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-md-12 col-lg-12 col-xl-12">
+                    <table class="table-striped table-bordered table-fixed table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Farmer Name</th>
+                                <th> Quantity (Kg.)</th>
+                                <th>Price(Per Kg.)</th>
+                                <th> Pickup Status </th>
+                                <th>Pickup Date</th>
+                                <th>Location</th>
+                                <th>Time </th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="allAddedItemsByFarmer.length>0">
+                            <tr *ngFor="let item of allAddedItemsByFarmer; let idx = index;">
+                                <td>{{item.itemName}}</td>
+                                <td>{{item.user_firstName}} {{item.user_lastName}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td>{{item.pricePerKg}}</td>
+                                <td>{{item.pickupStatus}}</td>
+                                <td>{{item.pickupDate}}</td>
+                                <td>{{item.location}}</td>
+                                <td>{{item.pickupTime}}</td>
+                                <td>
+                                    <span class="icon-holder"><a data-toggle="modal" data-target="#myModal2">
+                                    <i class="fa fa-eye" aria-hidden="true"
+                                        (click)="itemOpetions(item)"></i></a></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="allAddedItemsByFarmer.length===0">
+                            <ng-container>
+                                No Data Found
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<app-view-items *ngIf="isModalOpen" [addedItem]="addedItem" (sendResp)="closeModalEvent($event)"></app-view-items>
+
+
+
+ <div id="overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <br />
+            Loading...
+</div>

@@ -58,6 +58,8 @@ export class DashboardComponent implements OnInit {
               location
               pickupTime
               pickupStatus
+              userComment
+              adminComment
             }
           }
           `

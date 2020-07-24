@@ -2,6 +2,7 @@
   <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
   <a (click)="clickTonavigate('home')">Home</a>
   <a (click)="clickTonavigate('profile')">My Profile</a>
+  <a *ngIf="isAdmin" (click)="clickTonavigate('added-items')">Items</a>
   <a>Notification</a>
   <a (click)="logout()">Logout</a>
 </div>

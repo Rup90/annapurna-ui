@@ -1,0 +1,82 @@
+    
+<div class="modal fade right" id="viewItemModal" tabindex="-1" role="dialog" aria-labelledby="viewItemModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-slideout sliderWidth" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Item Details </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal('Close')">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                      <div class="col-md-12 col-lg-12 col-xl-12">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td> Farmer Name : </td>
+                                <td> {{addedItem.user_firstName}} {{addedItem.user_lastName}}</td>
+                            </tr>
+
+                            <tr>
+                                <td> Item Name : </td>
+                                <td> {{addedItem.itemName}} </td>
+                            </tr>
+
+                            <tr>
+                                <td> Quantity (Kg/Lt): </td>
+                                <td> {{addedItem.quantity}} </td>
+                            </tr>
+
+                            <tr>
+                                <td> Price (Per Kg/Lt) : </td>
+                                <td> {{addedItem.pricePerKg}} </td>
+                            </tr>
+
+                            <tr>
+                                <td> Location : </td>
+                                <td> {{addedItem.location}} </td>
+                            </tr>
+
+                            <tr>
+                                <td> Pickup Date : </td>
+                                <td> {{addedItem.pickupDate}} </td>
+                            </tr>
+
+                            <tr>
+                                <td> Pickup Time : </td>
+                                <td> {{addedItem.pickupTime}} </td>
+                            </tr>
+
+                            <tr *ngIf="addedItem.userComment">
+                                <td> User Comment : </td>
+                                <td> {{addedItem.userComment}} </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+                <div class="row">
+                    <label for="adminComment" class="col-md-2 col-form-label filterTxt">Comment:</label>
+                    <div class="col-md-10">
+                        <textarea id="w3review" name="w3review" rows="4" cols="50" placeholder="Admin Comment"
+                            [(ngModel)]="adminComment"
+                        >{{addedItem.adminComment}}</textarea>
+                    </div>
+                </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+            <button type="button" class='addEditBtn' (click)="pickOrRequest('Picked')">Picked</button>
+            <button type="button" class='requestBtn' (click)="pickOrRequest('Changed')">Request for Price Change</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div id="overlay" *ngIf="isLoading">
+            <div class="spinner"></div>
+            <br />
+            Loading...
+</div>

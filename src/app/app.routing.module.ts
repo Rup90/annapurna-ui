@@ -27,6 +27,10 @@ const routes: Routes = [
         loadChildren: () => import('../app/shared/components/myProfile/my-profile.module').then(m => m.MyProfileModule)
     },
     {
+        path:  'admin/added-items',
+        loadChildren: () => import('../app/added-items/added-items.module').then(m => m.AddedItemsModule)
+    },
+    {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'
