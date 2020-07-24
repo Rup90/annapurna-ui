@@ -53,20 +53,21 @@ export class LoginComponent implements OnInit {
     try {
       this.apollo.query<any>({
         query: gql`
-          query {
+          query Query{
               login(loginInput: {
                 email: "${this.loginForm.value.emailId}",
                 password: "${this.loginForm.value.password}"
               }) {
-                    token
-                    role
-                    user_id
-                    expiresIn
+                  token
+                  role
+                  user_id
+                  expiresIn
                   }
                }
           `
           }).subscribe(( res ) => {
-            if (res) {
+            console.log(res);
+            if (!res.errors) {
               const loginData = res.data.login;
               this.dataServ.saveIntoLocalStorage('TOKEN', loginData.token);
               if (loginData.role === 'ADMIN') {
@@ -74,6 +75,8 @@ export class LoginComponent implements OnInit {
               } else {
                 this.router.navigate(['/user/home']);
               }
+            } else {
+              alert(res.errors[0].message);
             }
           }, (errors) => {
             // alert('Something is wrong');

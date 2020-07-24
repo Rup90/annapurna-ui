@@ -34,7 +34,7 @@ export class ViewItemsComponent implements OnInit {
     try {
       this.apollo.mutate<any>({
         mutation: gql`
-          mutation {
+          mutation Mutation{
             adminOperation(inputParams: {
               pickupStatus: "${this.approverStatus}",
               u_id: "${this.addedItem.u_id}",

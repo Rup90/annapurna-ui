@@ -43,7 +43,7 @@ export class AddEditComponent implements OnInit {
   public fetchItems() {
     this.apollo.query<any>({
       query: gql`
-        query {
+        query Query{
           fetchAllItems {
             itemName
             category
@@ -99,7 +99,7 @@ export class AddEditComponent implements OnInit {
     try {
       this.apollo.mutate<any>({
         mutation: gql`
-          mutation {
+          mutation Mutation{
             selectItem(itemInput: {
               itemName: "${itemName}",
               category: "${category}",
@@ -144,7 +144,7 @@ export class AddEditComponent implements OnInit {
     try {
       this.apollo.mutate<any>({
         mutation: gql`
-          mutation {
+          mutation Mutation{
             updatetItem(itemInput: {
               itemName: "${itemName}",
               category: "${category}",

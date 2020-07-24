@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
     try {
       this.apollo.query<any>({
         query: gql`
-          query {
+          query Query{
             fetchAllSelectedItems {
               itemName
               category
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
     try {
       this.apollo.mutate<any>({
         mutation: gql`
-          mutation {
+          mutation Mutation{
             deletetItem(itemInput: {
               itemName: "${this.deletedItem.itemName}",
               id: "${this.deletedItem.id}"

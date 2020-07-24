@@ -108,7 +108,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     try {
       this.profileSubscription = this.apollo.mutate<any>({
         mutation: gql`
-          mutation {
+          mutation Mutation{
             updateUserInfo(userInput: {
               firstName: "${firstName}",
               lastName: "${lastName}",
@@ -166,7 +166,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
     const operation = {
       // tslint:disable-next-line:object-literal-key-quotes
-      'query': 'mutation ($picture: Upload!) { addProfilePicture(picture: $picture) {status, avatar }}',
+      'query': 'mutation Mutation($picture: Upload!) { addProfilePicture(picture: $picture) {status, avatar }}',
       // tslint:disable-next-line:object-literal-key-quotes
       'variables': {
         picture: null

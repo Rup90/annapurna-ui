@@ -25,7 +25,7 @@ export class AddedItemsComponent implements OnInit {
     try {
       this.apollo.query<any>({
         query: gql`
-          query {
+          query Query{
             fetchFarmersAddedItems(filteredBy: "${this.filter}") {
               id
               itemName
