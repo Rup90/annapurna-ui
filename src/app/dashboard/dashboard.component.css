@@ -69,6 +69,19 @@
     margin-left: 50px;
   }
   
+  .statusTxt {
+    font-weight: 700;
+  }
+  .text-success {
+    color: green;
+  }
+
+  .text-primary {
+    color: blue;
+  }
+  .text-danger {
+    color: orange;
+  }
  
   form {
     margin-top: 8%;

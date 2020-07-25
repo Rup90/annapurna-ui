@@ -67,6 +67,22 @@
                         <input type="time" class="form-control" formControlName="pickupTime" placeholder="Pick up time">
                     </div>
                 </div>
+                    <div class="form-group row" *ngIf="addEditModalData.adminComment">
+                        <label for="adminComment" class="col-sm-3 col-form-label filterTxt">Comment:</label>
+                        <div class="col-sm-9">
+                            <textarea id="adminComment" name="adminComment" rows="4" cols="50" placeholder="Admin Comment"
+                            formControlName="adminComment"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row" *ngIf="addEditModalData.adminComment">
+                        <label for="userComment" class="col-sm-3 col-form-label filterTxt">User Comment:</label>
+                        <div class="col-sm-9">
+                            <textarea id="userComment" name="userComment" rows="4" cols="50" placeholder="User Comment"
+                            formControlName="userComment"
+                            ></textarea>
+                        </div>
+                    </div>
                 <button type="submit" class='addEditBtn' *ngIf="!isEditable" (click)="addNewItems()">Add</button>
                 <button type="submit" class='addEditBtn' *ngIf="isEditable" (click)="updateItem()">Update</button>
             </form>

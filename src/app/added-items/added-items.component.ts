@@ -46,7 +46,6 @@ export class AddedItemsComponent implements OnInit {
           }
           `
           }).subscribe(( res ) => {
-            console.log(res);
             this.allAddedItemsByFarmer = [];
             if (res.data.fetchFarmersAddedItems) {
               this.allAddedItemsByFarmer = res.data.fetchFarmersAddedItems;
@@ -62,7 +61,6 @@ export class AddedItemsComponent implements OnInit {
   }
 
   public chooseItem(evt) {
-    console.log(evt);
     this.filter = evt.target.value;
     this.fetchAllAddedItemsByFarmer();
   }

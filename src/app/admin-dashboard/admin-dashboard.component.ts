@@ -45,9 +45,14 @@ export class AdminDashboardComponent implements OnInit {
   public productImg;
   public productLocalImage;
   public productImgMsg = '';
+  public buttonName = 'Save';
   constructor(private apollo: Apollo,  public dataServ: DataService, private formBuilder: FormBuilder,  private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.initCall();
+  }
+
+  public initCall() {
     this.createItemsFormData();
     this.fetchItems();
   }
@@ -78,8 +83,11 @@ export class AdminDashboardComponent implements OnInit {
   /**
    * Add items one by one as admin
    */
-  public addItems() {
-     this.isAddItem = true;
+  public addItems(item?) {
+    this.isAddItem = true;
+    if (item) {
+      this.patchFormData(item);
+    }
   }
 
   /**
@@ -90,6 +98,19 @@ export class AdminDashboardComponent implements OnInit {
       itemName: ['', Validators.required],
       category: ['', Validators.required]
     });
+  }
+
+  /**
+   * Patch Items Data
+   */
+  public patchFormData(item) {
+    console.log(item);
+    this.addItemsInDB.patchValue({
+      itemName: item.itemName,
+      category: item.category
+    });
+    this.productLocalImage = `http://localhost:8000/${item.itemImage}`;
+    this.buttonName = 'Update';
   }
 
   /**
@@ -117,9 +138,15 @@ export class AdminDashboardComponent implements OnInit {
    */
   public saveItem() {
     const {itemName, category} = this.addItemsInDB.value;
+    let operationName = '';
+    if (this.buttonName === 'Save') {
+      operationName = 'addNewItem';
+    } else {
+      operationName = 'updateNewItem';
+    }
     const operation = {
       // tslint:disable-next-line:object-literal-key-quotes
-      'query': `mutation ($picture: Upload!) { addNewItem(picture: $picture, itemInput: { itemName: "${itemName}", category:  "${category}" }) {status, itemName}}`,
+      'query': `mutation ($picture: Upload!) { ${operationName}(picture: $picture, itemInput: { itemName: "${itemName}", category:  "${category}" }) {status, message}}`,
       // tslint:disable-next-line:object-literal-key-quotes
       'variables': {
         picture: null
@@ -138,16 +165,45 @@ export class AdminDashboardComponent implements OnInit {
         .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
     };
     this.http.post('http://localhost:8000/graphql', fd, header ).subscribe((res: any) => {
-     const { status} = res.data.addNewItem;
+     const { status, message} = (this.buttonName === 'Save') ? res.data.addNewItem : res.data.updateNewItem;
      if (status === 200) {
-       alert(res.data.addNewItem.itemName);
-       this.productLocalImage = '';
-       this.createItemsFormData();
+       alert(message);
+       this.closeBtn();
      }
 
     }, (err) => {
       console.log(err);
     });
+  }
+
+  /**
+   * Delete Item
+   */
+  public deleteItems(item) {
+    try {
+      this.apollo.mutate<any>({
+        mutation: gql`
+          mutation Mutation{
+            deletetAddedItem(itemInput: {
+              itemName: "${item.itemName}"
+            }) {
+                  status
+                  message
+                }
+            }
+          `
+          }).subscribe(( res ) => {
+            const { status, message} = res.data.deletetAddedItem;
+            if (status === 200) {
+              alert(message);
+              this.closeBtn();
+            }
+          }, (errors) => {
+            console.log(errors);
+          });
+      } catch (err) {
+        console.log(err);
+    }
   }
 
 
@@ -156,7 +212,9 @@ export class AdminDashboardComponent implements OnInit {
    */
    public closeBtn() {
       this.isAddItem = false;
-      this.fetchItems();
+      this.buttonName = 'Save';
+      this.productImg = '';
+      this.initCall();
    }
 
 }

@@ -14,10 +14,12 @@ export class ViewItemsComponent implements OnInit {
   @Output() sendResp: EventEmitter<any> = new EventEmitter();
   public approverStatus = 'Picked';
   public adminComment;
+  public userComment;
   public isLoading = false;
   constructor(private apollo: Apollo) { }
 
   ngOnInit(): void {
+    this.adminComment = this.addedItem.adminComment;
     $('#viewItemModal').modal('show');
   }
 
@@ -38,7 +40,7 @@ export class ViewItemsComponent implements OnInit {
             adminOperation(inputParams: {
               pickupStatus: "${this.approverStatus}",
               u_id: "${this.addedItem.u_id}",
-              itemId: "${this.addedItem.itemId}"
+              itemId: "${this.addedItem.itemId}",
               adminComment: "${this.adminComment}"
             }) {
                   status

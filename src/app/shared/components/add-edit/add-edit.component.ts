@@ -23,6 +23,7 @@ export class AddEditComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private apollo: Apollo, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+    console.log('addEditModalData', this.addEditModalData);
     this.today = new Date();
     if (this.addEditModalData.length === 0) {
       this.title = 'ADD NEW ITEM';
@@ -71,7 +72,9 @@ export class AddEditComponent implements OnInit {
       quantity: ['', Validators.required],
       pricePerKg: ['', Validators.required],
       location: ['', Validators.required],
-      pickupTime: ['', Validators.required]
+      pickupTime: ['', Validators.required],
+      adminComment: [''],
+      userComment: [''],
     });
     console.log('>>>>>>', this.isEditable);
     if (this.isEditable) {
@@ -140,7 +143,8 @@ export class AddEditComponent implements OnInit {
 
   public updateItem() {
     this.isLoading = true;
-    const { itemName, category, id, quantity, pricePerKg, pickupDate, location, pickupTime } = this.selectItemForm.value;
+    const { itemName, category, id, quantity, pricePerKg, pickupDate, location, pickupTime,
+      adminComment, userComment} = this.selectItemForm.value;
     try {
       this.apollo.mutate<any>({
         mutation: gql`
@@ -154,6 +158,8 @@ export class AddEditComponent implements OnInit {
               pickupDate: "${this.datePipe.transform(pickupDate, 'MM-dd-yyyy')}",
               location: "${location}",
               pickupTime: "${pickupTime}"
+              adminComment: "${pickupTime}",
+              userComment: "${userComment}",
             }) {
                   itemName
                   category
@@ -191,7 +197,9 @@ export class AddEditComponent implements OnInit {
       pricePerKg: item.pricePerKg,
       pickupDate: item.pickupDate,
       location: item.location,
-      pickupTime: item.pickupTime
+      pickupTime: item.pickupTime,
+      adminComment: item?.adminComment,
+      userComment: item?.userComment
     });
     this.selectItemForm.get('itemSelectedId').disable();
   }

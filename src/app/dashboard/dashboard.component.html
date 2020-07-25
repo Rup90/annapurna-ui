@@ -36,16 +36,24 @@
                             <td>{{item.category}}</td>
                             <td>{{item.quantity}}</td>
                             <td>{{item.pricePerKg}}</td>
-                            <td>{{item.pickupStatus}}</td>
+                            <td class="statusTxt" [ngClass]="{
+                                'text-success':item.pickupStatus === 'Picked',
+                                'text-primary':item.pickupStatus === 'Pending',
+                                'text-danger':item.pickupStatus === 'Changed'
+                                }"
+                            >{{item.pickupStatus}}</td>
                             <td>{{item.pickupDate}}</td>
                             <td>{{item.location}}</td>
                             <td>{{item.pickupTime}}</td>
-                            <td>
+                            <td *ngIf="item.pickupStatus !== 'Picked'">
                                 <span class="icon-holder"><a data-toggle="modal" data-target="#myModal2">
                                 <i class="fa fa-eye" aria-hidden="true"
                                     (click)="itemOpetions('edit', item)"></i></a></span>
                                 <span class="icon-holder"><a (click)="itemOpetions('del', item)"><i class="fa fa-trash"
                                     aria-hidden="true"></i></a></span>
+                            </td>
+                            <td class="statusTxt text-success" *ngIf="item.pickupStatus === 'Picked'">
+                                <span>Moved to order lists </span>
                             </td>
                         </tr>
                     </tbody>

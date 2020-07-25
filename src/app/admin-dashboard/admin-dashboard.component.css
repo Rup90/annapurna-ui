@@ -1,12 +1,11 @@
 .title {
-    padding: 5% 0 25px;
     margin: auto;
     width: 360px;
     color: #FFFFFF;
     text-align: center;
 }
 
-.items {
+/* .items {
     position: relative;
     z-index: 1;
     background: #FFFFFF;
@@ -15,8 +14,15 @@
     padding: 15px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-  }
+  } */
 
+  .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
   h3 {
       margin: 0 auto;
   }
@@ -27,6 +33,14 @@
   }
 
   .productImage {
-      width: 100px;
+      width: 50px;
       height: auto;
+  }
+
+  table {
+    background: #FFFFFF;
+  }
+
+  .icon-holder {
+    padding: 5px;
   }

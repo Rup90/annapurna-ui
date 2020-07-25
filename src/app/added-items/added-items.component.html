@@ -4,7 +4,7 @@
             <div class="row">
                 <label for="filter" class="col-md-1 col-form-label filterTxt">Filter:</label>
                 <div class="col-md-3">
-                    <select formControlName="role" class="form-control selectDiv" id="roleSets" (click)="chooseItem($event)">
+                    <select class="form-control selectDiv" id="roleSets" (click)="chooseItem($event)">
                         <option value="Pending">Pending</option>
                         <option value="Picked">Picked</option>
                         <option value="Changed">Change Price Request</option>
@@ -24,7 +24,7 @@
                                 <th>Pickup Date</th>
                                 <th>Location</th>
                                 <th>Time </th>
-                                <th> Action </th>
+                                <th *ngIf="filter !== 'Picked'"> Action </th>
                             </tr>
                         </thead>
                         <tbody *ngIf="allAddedItemsByFarmer.length>0">
@@ -37,7 +37,7 @@
                                 <td>{{item.pickupDate}}</td>
                                 <td>{{item.location}}</td>
                                 <td>{{item.pickupTime}}</td>
-                                <td>
+                                <td *ngIf="filter !== 'Picked'">
                                     <span class="icon-holder"><a data-toggle="modal" data-target="#myModal2">
                                     <i class="fa fa-eye" aria-hidden="true"
                                         (click)="itemOpetions(item)"></i></a></span>
