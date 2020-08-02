@@ -37,6 +37,16 @@ export function createApollo(httpLink: HttpLink) {
             },
         });
 
+        const defaultOptions = {
+            query: {
+              fetchPolicy: 'network-only',
+              errorPolicy: 'all',
+            },
+            mutate: {
+              errorPolicy: 'all',
+            },
+        };
+
         const link = split(
 
         // split based on operation type
@@ -67,7 +77,8 @@ export function createApollo(httpLink: HttpLink) {
         return {
             // tslint:disable-next-line:object-literal-shorthand
             link: link,
-            cache: new InMemoryCache({fragmentMatcher})
+            cache: new InMemoryCache({fragmentMatcher}),
+            defaultOptions
         };
 
 }

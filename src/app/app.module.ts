@@ -14,25 +14,6 @@ import { NotificationService } from './shared/dataservices/notification.service'
 import { GraphQLModule } from './graphql.module';
 
 
-const defaultOptions = {
-  query: {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
-  },
-  mutate: {
-    errorPolicy: 'all',
-  },
-};
-
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData: {
-    __schema: {
-      types: [], // no types provided
-    },
-  },
-});
-
 @NgModule({
   declarations: [
     AppComponent,

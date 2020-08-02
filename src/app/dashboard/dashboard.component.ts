@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
                 products {
                     itemName
                     category
-                    id
+                    productId
                     quantity
                     pricePerKg
                     pickupDate
@@ -119,28 +119,23 @@ export class DashboardComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation Mutation{
-            deletetItem(itemInput: {
-              itemName: "${this.deletedItem.itemName}",
-              id: "${this.deletedItem.id}"
+            deletetProduct(itemDetails: {
+              productId: "${this.deletedItem.productId}"
             }) {
-                  itemName
-                  category
-                  id
-                  quantity
-                  pricePerKg
-                  pickupDate
-                  location
-                  pickupTime
-                  pickupStatus
+
+                ... on DeleteResponse {
+                  statusCode
+                  response
                 }
+              }
             }
           `
           }).subscribe(( res ) => {
-            if (res) {
-                this.totalSelectedItems = res.data.deletetItem;
+            const { statusCode, response } = res.data.deletetProduct;
+            if (statusCode === 200) {
                 this.isLoading = false;
                 this.isAddEdit = false;
-                this.alertMsg = 'Item Deleted';
+                this.alertMsg = response;
                 this.isAlertPopupOepn = true;
             }
 
@@ -172,6 +167,7 @@ export class DashboardComponent implements OnInit {
     if (evt) {
       this.isAlertPopupOepn = false;
       this.alertMsg = '';
+      this.initCall();
     }
   }
 
