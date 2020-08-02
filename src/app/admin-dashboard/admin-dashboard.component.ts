@@ -64,17 +64,23 @@ export class AdminDashboardComponent implements OnInit {
     this.apollo.query<any>({
       query: gql`
         query {
-          fetchAllItems {
-            itemName
-            category
-            id
-            itemImage
+          fetchAllProducts {
+            ... on ProductDetails {
+              statusCode
+              products {
+                itemName
+                category
+                id
+                itemImage
+              }
+            }
           }
         }
       `
     }).subscribe(({ data, loading }) => {
-      if (data) {
-        this.allItems = data.fetchAllItems;
+      const { statusCode, products} = data.fetchAllProducts;
+      if (statusCode === 200) {
+        this.allItems = products;
       }
     });
   }
