@@ -71,11 +71,11 @@ export class DashboardComponent implements OnInit {
           `
           }).subscribe(( res ) => {
             console.log('res ==>', res);
+            const { statusCode, products } = res.data.fetchAllSavedProducts;
             this.totalSelectedItems = [];
             this.isLoading = false;
-            if (res.data.fetchAllSelectedItems) {
-              this.totalSelectedItems = res.data.fetchAllSelectedItems;
-              this.isLoading = false;
+            if (statusCode === 200) {
+              this.totalSelectedItems = products;
               this.cd.detectChanges();
             }
           }, (errors) => {

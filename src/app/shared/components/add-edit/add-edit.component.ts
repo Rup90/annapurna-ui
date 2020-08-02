@@ -45,16 +45,22 @@ export class AddEditComponent implements OnInit {
     this.apollo.query<any>({
       query: gql`
         query Query{
-          fetchAllItems {
-            itemName
-            category
-            id
+          fetchAllProducts {
+            ... on ProductDetails {
+              statusCode
+              products {
+                itemName
+                category
+                id
+              }
+            }
           }
         }
       `
     }).subscribe(({ data, loading }) => {
-      if (data) {
-        this.allItems = data.fetchAllItems;
+      const { statusCode, products} = data.fetchAllProducts;
+      if (statusCode === 200) {
+        this.allItems = products;
       }
     });
   }
@@ -103,28 +109,26 @@ export class AddEditComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation Mutation{
-            selectItem(itemInput: {
+            saveProduct(itemDetails: {
               itemName: "${itemName}",
               category: "${category}",
-              id: "${id}",
+              productId: "${id}",
               quantity: "${quantity}",
               pricePerKg: "${pricePerKg}",
               pickupDate: "${this.datePipe.transform(pickupDate, 'MM-dd-yyyy')}",
               location: "${location}",
               pickupTime: "${pickupTime}"
             }) {
-                  itemName
-                  category
-                  id
-                  quantity
-                  pricePerKg
-                  pickupDate
-                  location
-                  pickupTime
+
+                ... on ProductSaveResponse {
+                  statusCode
+                  response
                 }
+              }
             }
           `
           }).subscribe(( res ) => {
+            console.log(res);
             if (res) {
                 this.isLoading = false;
                 this.closeModal('added');

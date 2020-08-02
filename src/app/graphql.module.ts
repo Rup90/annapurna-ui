@@ -1,4 +1,4 @@
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 
@@ -14,20 +14,28 @@ import { WebSocketLink } from 'apollo-link-ws';
 
 import { getMainDefinition } from 'apollo-utilities';
 
-import { onError } from "apollo-link-error";
+import { onError } from 'apollo-link-error';
 
-import { ApolloClient } from "apollo-client";
+import { ApolloClient } from 'apollo-client';
 
 import { DataService } from './shared/dataservices/dataService';
 
 
 
 
-const uri = 'http://localhost:8000/graphql'; // <-- add the URL of the GraphQL server here
+const uri = 'http://localhost:3000/graphql'; // <-- add the URL of the GraphQL server here
 
  
 
 export function createApollo(httpLink: HttpLink) {
+
+        const fragmentMatcher = new IntrospectionFragmentMatcher({
+            introspectionQueryResultData: {
+            __schema: {
+                types: [], // no types provided
+            },
+            },
+        });
 
         const link = split(
 
@@ -55,19 +63,15 @@ export function createApollo(httpLink: HttpLink) {
 
         ])
 
-    );    
-
-    return {
-
-        link: link,
-
-        cache: new InMemoryCache()
-
-    };
+    );
+        return {
+            // tslint:disable-next-line:object-literal-shorthand
+            link: link,
+            cache: new InMemoryCache({fragmentMatcher})
+        };
 
 }
 
- 
 
 const authLink = new ApolloLink((operation, forward) => {
 
@@ -76,8 +80,6 @@ const authLink = new ApolloLink((operation, forward) => {
     const token = localStorage.getItem('TOKEN');
 
     const refreshToken = localStorage.getItem('x-refresh-token');
-
-  
 
     operation.setContext({
 
@@ -91,7 +93,6 @@ const authLink = new ApolloLink((operation, forward) => {
 
     });
 
- 
 
     return forward(operation).map(response => {
 
@@ -103,11 +104,10 @@ const authLink = new ApolloLink((operation, forward) => {
 
 });
 
- 
 
 const onErrorLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
 
-    const module = GraphQLModule; 
+    const module = GraphQLModule;
 
     const myService = AppInjector.get(Apollo);
 
@@ -115,7 +115,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError, operation, forward }
 
     if (graphQLErrors) {
 
-        for (let err of graphQLErrors) {
+        for (const err of graphQLErrors) {
 
             console.log(err['statusCode']);
 
@@ -145,7 +145,7 @@ const onErrorLink = onError(({ graphQLErrors, networkError, operation, forward }
 
                             operation.setContext({
 
-                                headers: {                 
+                                headers: {
 
                                     authorization: `Bearer ${token}`,
 
@@ -171,25 +171,24 @@ const onErrorLink = onError(({ graphQLErrors, networkError, operation, forward }
 
                             );
 
-                        });  
+                        });
 
                     }
 
-                )                              
+                )
 
             }
 
-        }     
+        }
 
-    }  
+    }
 
 });
 
- 
 
 const ws = new WebSocketLink({
 
-    uri: `ws://localhost:8000/subscriptions`,
+    uri: `ws://localhost:3000/graphql`,
 
     options: {
 
@@ -201,11 +200,8 @@ const ws = new WebSocketLink({
 
 });
 
- 
 
 export let AppInjector: Injector;
-
- 
 
 @NgModule({
 
@@ -227,25 +223,17 @@ export let AppInjector: Injector;
 
 })
 
- 
-
-export class GraphQLModule{  
-
-   
-
+export class GraphQLModule{
     constructor(
 
-        private injector : Injector
+        private injector: Injector
 
-    ) { 
-
+    ) {
         AppInjector = this.injector;
 
     }
 
-    
-
-    public getRefreshToken(apollo: Apollo) { 
+    public getRefreshToken(apollo: Apollo) {
 
         return apollo.query<any>({
 
@@ -264,11 +252,6 @@ export class GraphQLModule{
                 }
 
             `
-
           });
-
     }
-
 }
-
- 
