@@ -25,9 +25,9 @@ export class DashboardComponent implements OnInit {
   constructor(private apollo: Apollo, private cd: ChangeDetectorRef, private datePipe: DatePipe, public notifyServ: NotificationService) { }
 
   ngOnInit(): void {
-    this.notifyServ.notifydata.subscribe(res => {
-      console.log('res -->', res);
-    })
+    // this.notifyServ.notifydata.subscribe(res => {
+    //   console.log('res -->', res);
+    // })
     this.initCall();
   }
 
@@ -48,23 +48,31 @@ export class DashboardComponent implements OnInit {
       this.apollo.query<any>({
         query: gql`
           query Query{
-            fetchAllSelectedItems {
-              itemName
-              category
-              id
-              quantity
-              pricePerKg
-              pickupDate
-              location
-              pickupTime
-              pickupStatus
-              userComment
-              adminComment
+            fetchAllSavedProducts {
+              ... on ProductDetailsResponse {
+                statusCode
+                products {
+                    itemName
+                    category
+                    id
+                    quantity
+                    pricePerKg
+                    pickupDate
+                    location
+                    pickupTime
+                    pickupStatus
+                    userComment
+                    adminComment
+                    productId
+                }
+              }
             }
           }
           `
           }).subscribe(( res ) => {
+            console.log('res ==>', res);
             this.totalSelectedItems = [];
+            this.isLoading = false;
             if (res.data.fetchAllSelectedItems) {
               this.totalSelectedItems = res.data.fetchAllSelectedItems;
               this.isLoading = false;
@@ -72,7 +80,8 @@ export class DashboardComponent implements OnInit {
             }
           }, (errors) => {
             this.isLoading = false;
-            alert('Something is wrong');
+           // alert('Something is wrong');
+            console.log(errors);
           });
     } catch (err) {
       this.isLoading = false;
@@ -122,6 +131,7 @@ export class DashboardComponent implements OnInit {
                   pickupDate
                   location
                   pickupTime
+                  pickupStatus
                 }
             }
           `

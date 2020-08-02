@@ -36,6 +36,7 @@
     "bootstrap": "^4.5.0",
     "font-awesome": "^4.7.0",
     "graphql": "^15.3.0",
+    "graphql-codegen-fragment-matcher": "^0.18.2",
     "graphql-tag": "^2.10.4",
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
