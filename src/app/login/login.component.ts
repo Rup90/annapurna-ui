@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
                 alert(response.message);
               } else {
                 this.dataServ.saveIntoLocalStorage('TOKEN', response.token);
-                this.dataServ.saveIntoLocalStorage('REFRESH-TOKEN', response.refreshToken);
+                this.dataServ.saveIntoLocalStorage('x-refresh-token', response.refreshToken);
                 if (response.role === 'ADMIN') {
                   this.router.navigate(['/admin/home']);
                 } else {
