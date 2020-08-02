@@ -11,6 +11,7 @@ import { connectApiLink } from './app.graphql.module';
 import {  SideNavBarComponent } from './shared/components/sideNavBar/side-nav-bar.component';
 import { DatePipe } from '@angular/common';
 import { NotificationService } from './shared/dataservices/notification.service';
+import { GraphQLModule } from './graphql.module';
 
 
 const defaultOptions = {
@@ -44,18 +45,21 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
     AppRoutingModule,
     BrowserAnimationsModule,
     ApolloModule,
-    HttpClientModule
+    HttpClientModule,
+    GraphQLModule
   ],
-  providers: [{
-    provide: APOLLO_OPTIONS,
-    useFactory: () => {
-      return {
-        cache: new InMemoryCache({fragmentMatcher}),
-        link: connectApiLink,
-        defaultOptions
-      };
-    },
-  }, DatePipe, NotificationService],
+  providers: [
+  // {
+  //   provide: APOLLO_OPTIONS,
+  //   useFactory: () => {
+  //     return {
+  //       cache: new InMemoryCache({fragmentMatcher}),
+  //       link: connectApiLink,
+  //       defaultOptions
+  //     };
+  //   },
+  // }, 
+  DatePipe, NotificationService],
   bootstrap: [AppComponent, SideNavBarComponent]
 })
 export class AppModule { }

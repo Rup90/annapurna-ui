@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
                   statusCode
                   response {
                     token
+                    refreshToken
                     user_id
                     refreshToken
                     role
