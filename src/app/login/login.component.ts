@@ -54,36 +54,51 @@ export class LoginComponent implements OnInit {
       this.apollo.query<any>({
         query: gql`
           query Query{
-              login(loginInput: {
+              login(
                 email: "${this.loginForm.value.emailId}",
                 password: "${this.loginForm.value.password}"
-              }) {
-                  token
-                  role
-                  user_id
-                  expiresIn
+              ) {
+                ... on LoginFaliureResponse {
+                  statusCode
+                  response {
+                    message
                   }
-               }
+                }
+                ... on LoginSuccessResponse {
+                  statusCode
+                  response {
+                    token
+                    user_id
+                    refreshToken
+                    role
+                  }
+                }
+              }
+            }
           `
           }).subscribe(( res ) => {
-            console.log(res);
-            if (!res.errors) {
-              const loginData = res.data.login;
-              this.dataServ.saveIntoLocalStorage('TOKEN', loginData.token);
-              if (loginData.role === 'ADMIN') {
-                this.router.navigate(['/admin/home']);
+            const { data } = res;
+            console.log(data);
+            if (data) {
+              const { statusCode, response } = data.login;
+              if (statusCode === 422) {
+                alert(response.message);
               } else {
-                this.router.navigate(['/user/home']);
+                this.dataServ.saveIntoLocalStorage('TOKEN', response.token);
+                this.dataServ.saveIntoLocalStorage('REFRESH-TOKEN', response.refreshToken);
+                if (response.role === 'ADMIN') {
+                  this.router.navigate(['/admin/home']);
+                } else {
+                  this.router.navigate(['/user/home']);
+                }
               }
-            } else {
-              alert(res.errors[0].message);
             }
           }, (errors) => {
             // alert('Something is wrong');
             console.log(errors);
           });
     } catch (err) {
-
+      console.log(err);
     }
   }
 

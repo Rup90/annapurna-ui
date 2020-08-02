@@ -1,5 +1,5 @@
 import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 import { createHttpLink } from 'apollo-link-http';
 import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-angular-link-http';
@@ -8,8 +8,10 @@ import { getMainDefinition } from 'apollo-utilities';
 import { setContext } from 'apollo-link-context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql',
+  uri: 'http://localhost:3000/graphql',
 });
+
+
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -25,7 +27,7 @@ const authLink = setContext((_, { headers }) => {
 
 
 const ws = new WebSocketLink({
-  uri: `ws://localhost:8000/subscriptions`,
+  uri: `ws://localhost:3000/graphql`,
   options: {
     reconnect: true,
     timeout: 30000
