@@ -115,7 +115,7 @@ export class AdminDashboardComponent implements OnInit {
       itemName: item.itemName,
       category: item.category
     });
-    this.productLocalImage = `http://localhost:8000/${item.itemImage}`;
+    this.productLocalImage = `http://localhost:3000/${item.itemImage}`;
     this.buttonName = 'Update';
   }
 
@@ -146,21 +146,21 @@ export class AdminDashboardComponent implements OnInit {
     const {itemName, category} = this.addItemsInDB.value;
     let operationName = '';
     if (this.buttonName === 'Save') {
-      operationName = 'addNewItem';
+      operationName = 'addNewProduct';
     } else {
-      operationName = 'updateNewItem';
+      operationName = 'updateAddedProduct';
     }
     const operation = {
       // tslint:disable-next-line:object-literal-key-quotes
-      'query': `mutation ($picture: Upload!) { ${operationName}(picture: $picture, itemInput: { itemName: "${itemName}", category:  "${category}" }) {status, message}}`,
+      'query': `mutation ($image: Upload!) { ${operationName}(image: $image, inputParams: { itemName: "${itemName}", category:  "${category}" })  { ... on NewProductAddedResponse {statusCode, message }}}`,
       // tslint:disable-next-line:object-literal-key-quotes
       'variables': {
-        picture: null
+        image: null
       }
     };
 
     const mapping = {
-      0: ['variables.picture']
+      0: ['variables.image']
     };
     const fd = new FormData();
     fd.append('operations', JSON.stringify(operation));
@@ -168,14 +168,16 @@ export class AdminDashboardComponent implements OnInit {
     fd.append('0', this.productImg, this.productImg.name);
     const header = {
       headers: new HttpHeaders()
-        .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
+        .set('authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
+        .set('x-refresh-token', 'Bearer ' + localStorage.getItem('x-refresh-token'))
     };
-    this.http.post('http://localhost:8000/graphql', fd, header ).subscribe((res: any) => {
-     const { status, message} = (this.buttonName === 'Save') ? res.data.addNewItem : res.data.updateNewItem;
-     if (status === 200) {
-       alert(message);
-       this.closeBtn();
-     }
+    this.http.post('http://localhost:3000/graphql', fd, header ).subscribe((res: any) => {
+      console.log(res);
+      const { statusCode, message} = (this.buttonName === 'Save') ? res.data.addNewProduct : res.data.updateAddedProduct;
+      if (statusCode === 200) {
+          alert(message);
+          this.closeBtn();
+      }
 
     }, (err) => {
       console.log(err);
