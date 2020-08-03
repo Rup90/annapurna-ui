@@ -42,20 +42,26 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         query: gql`
           query {
             getUserInfo {
-              firstName
-              lastName
-              email
-              phoneNumber
-              address
-              role
-              avatar
+              ... on UserInformationsResponse {
+                statusCode
+                userInfo {
+                  firstName
+                  lastName
+                  email
+                  phoneNumber
+                  address
+                  role
+                  avatar
+                }
+              }
             }
           }
           `
           }).subscribe(( res ) => {
+            const { statusCode, userInfo } = res.data.getUserInfo;
             this.profileFormData = [];
             if (res.data.getUserInfo) {
-              this.profileFormData = res.data.getUserInfo;
+              this.profileFormData = userInfo;
               this.patchProfileFormData();
             }
           }, (errors) => {
@@ -117,19 +123,25 @@ export class MyProfileComponent implements OnInit, OnDestroy {
               role: "${role}",
               email: "${emailId}"
             }) {
-                  firstName
-                  lastName
-                  email
-                  phoneNumber
-                  address
-                  role
-                  avatar
+                ... on UserInformationsResponse {
+                    statusCode
+                    userInfo {
+                      firstName
+                      lastName
+                      email
+                      phoneNumber
+                      address
+                      role
+                      avatar
+                    }
                 }
-               }
+              }
+            }
           `
           }).subscribe(( res ) => {
-            if (res.data.updateUserInfo) {
-              this.profileFormData = res.data.updateUserInfo;
+            const { statusCode, userInfo } = res.data.updateUserInfo;
+            if (statusCode === 200) {
+              this.profileFormData = userInfo;
               this.patchProfileFormData();
             }
           }, (errors) => {
@@ -185,7 +197,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       headers: new HttpHeaders()
         .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
     };
-    this.http.post('http://localhost:8000/graphql', fd, header ).subscribe((res: any) => {
+    this.http.post('http://localhost:3000/graphql', fd, header ).subscribe((res: any) => {
      const { status, avatar } = res.data.addProfilePicture;
      if (status === 200 && avatar) {
        this.avatarImage = avatar;
