@@ -172,7 +172,6 @@ export class AdminDashboardComponent implements OnInit {
         .set('x-refresh-token', 'Bearer ' + localStorage.getItem('x-refresh-token'))
     };
     this.http.post('http://localhost:3000/graphql', fd, header ).subscribe((res: any) => {
-      console.log(res);
       const { statusCode, message} = (this.buttonName === 'Save') ? res.data.addNewProduct : res.data.updateAddedProduct;
       if (statusCode === 200) {
           alert(message);
@@ -192,17 +191,19 @@ export class AdminDashboardComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation Mutation{
-            deletetAddedItem(itemInput: {
+            deleteProduct(
               itemName: "${item.itemName}"
-            }) {
-                  status
+            ) {
+                ... on ProductDeletedResponse {
+                  statusCode
                   message
                 }
+              }
             }
           `
           }).subscribe(( res ) => {
-            const { status, message} = res.data.deletetAddedItem;
-            if (status === 200) {
+            const { statusCode, message} = res.data.deleteProduct;
+            if (statusCode === 200) {
               alert(message);
               this.closeBtn();
             }

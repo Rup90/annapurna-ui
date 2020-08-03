@@ -26,29 +26,35 @@ export class AddedItemsComponent implements OnInit {
       this.apollo.query<any>({
         query: gql`
           query Query{
-            fetchFarmersAddedItems(filteredBy: "${this.filter}") {
-              id
-              itemName
-              category
-              quantity
-              pricePerKg
-              pickupDate
-              location
-              pickupTime
-              pickupStatus
-              u_id
-              userComment
-              adminComment
-              user_firstName
-              user_lastName
-              itemId
+            userAddedProducts(filteredBy: "${this.filter}") {
+              ... on UserAddedProductsDetails {
+                  statusCode
+                  products {
+                    id
+                    itemName
+                    category
+                    quantity
+                    pricePerKg
+                    pickupDate
+                    location
+                    pickupTime
+                    pickupStatus
+                    u_id
+                    userComment
+                    adminComment
+                    user_firstName
+                    user_lastName
+                    productId
+                  }
+              }
             }
           }
           `
           }).subscribe(( res ) => {
+            const { statusCode, products } = res.data.userAddedProducts;
             this.allAddedItemsByFarmer = [];
-            if (res.data.fetchFarmersAddedItems) {
-              this.allAddedItemsByFarmer = res.data.fetchFarmersAddedItems;
+            if (statusCode === 200) {
+              this.allAddedItemsByFarmer = products;
               this.isLoading = false;
             }
           }, (errors) => {

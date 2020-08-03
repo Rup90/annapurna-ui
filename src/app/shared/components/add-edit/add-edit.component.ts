@@ -153,31 +153,28 @@ export class AddEditComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation Mutation{
-            updatetItem(itemInput: {
+            updatetProduct(itemDetails: {
               itemName: "${itemName}",
               category: "${category}",
-              id: "${id}",
+              productId: "${id}",
               quantity: "${quantity}",
               pricePerKg: "${pricePerKg}",
               pickupDate: "${this.datePipe.transform(pickupDate, 'MM-dd-yyyy')}",
               location: "${location}",
               pickupTime: "${pickupTime}"
-              adminComment: "${pickupTime}",
+              adminComment: "${adminComment}",
               userComment: "${userComment}",
             }) {
-                  itemName
-                  category
-                  id
-                  quantity
-                  pricePerKg
-                  pickupDate
-                  location
-                  pickupTime
+                  ... on UpdateResponse {
+                    statusCode
+                    response
+                  }
                 }
             }
           `
           }).subscribe(( res ) => {
-            if (res) {
+            const { statusCode } = res.data.updatetProduct;
+            if (statusCode === 200) {
                 this.isLoading = false;
                 this.closeModal('update');
             }
@@ -193,10 +190,10 @@ export class AddEditComponent implements OnInit {
 
   public patchValue(item) {
     this.selectItemForm.patchValue({
-      id: item.id,
+      id: item.productId,
       category: item.category,
       itemName: item.itemName,
-      itemSelectedId: item.id,
+      itemSelectedId: item.productId,
       quantity: item.quantity,
       pricePerKg: item.pricePerKg,
       pickupDate: item.pickupDate,

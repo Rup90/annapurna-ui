@@ -37,19 +37,23 @@ export class ViewItemsComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation Mutation{
-            adminOperation(inputParams: {
+            adminOperations(inputParams: {
               pickupStatus: "${this.approverStatus}",
               u_id: "${this.addedItem.u_id}",
-              itemId: "${this.addedItem.itemId}",
+              productId: "${this.addedItem.productId}",
               adminComment: "${this.adminComment}"
             }) {
-                  status
+
+                ... on AdminOperationResponse {
+                  statusCode
                   message
                 }
+              }
             }
           `
           }).subscribe(( res ) => {
-            if (res) {
+            const { statusCode, message } = res.data.adminOperations;
+            if (statusCode === 200) {
                 this.isLoading = false;
                 this.closeModal('added');
             }
