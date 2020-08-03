@@ -14,26 +14,25 @@ export class NotificationService {
   }
 
   public notify() {
-    console.log('===========Log ===========');
     try {
         this.apollo.subscribe({
             query: gql`
             subscription {
-              newNotification {
-                    itemName
-                    category
-                    id
-                    quantity
-                    pricePerKg
-                    pickupDate
-                    location
-                    pickupTime
+              itemAdded {
+                    ... on ItemAddedNotification {
+                        itemName
+                        user_firstName
+                        user_lastName
+                        user_id
+                        productId
+                    }
                   }
               }
             `
           })
           .subscribe(({ data }) => {
             // this.todoItems = [...this.todoItems, data.Todo.node];
+            console.log('====>', data);
             this.notificationdata.next(data);
           }, (errors) => {
             console.log(errors);
@@ -41,9 +40,9 @@ export class NotificationService {
     } catch (error) {
         console.log(error);
     }
-    // this.interval = setInterval(() => {
-    //     this.notificationdata.next(0);
-    // }, 1000);
+    // // this.interval = setInterval(() => {
+    // //     this.notificationdata.next(0);
+    // // }, 1000);
   }
 
   public closeNotification() {

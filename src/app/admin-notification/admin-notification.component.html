@@ -1,0 +1,9 @@
+<div class="card">
+  <div class="card-body" *ngIf="notification">
+        <h3> {{notification?.itemName}} </h3>
+        <p> A new product added by = {{notification?.user_firstName}} {{notification?.user_lastName}} </p>
+  </div>
+  <div *ngIf="!notification">
+    <p> No New Notification </p>
+  </div>
+</div>

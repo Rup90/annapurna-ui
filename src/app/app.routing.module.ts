@@ -31,6 +31,10 @@ const routes: Routes = [
         loadChildren: () => import('../app/added-items/added-items.module').then(m => m.AddedItemsModule)
     },
     {
+        path: 'admin/notification',
+        loadChildren: () => import('../app/admin-notification/admin-notification.module').then(m => m.AdminNotificationModule)
+    },
+    {
         path: '',
         redirectTo: 'login',
         pathMatch: 'full'
