@@ -60,9 +60,11 @@ export class MyProfileComponent implements OnInit, OnDestroy {
           }).subscribe(( res ) => {
             const { statusCode, userInfo } = res.data.getUserInfo;
             this.profileFormData = [];
-            if (res.data.getUserInfo) {
+            if (statusCode === 200 && userInfo) {
               this.profileFormData = userInfo;
               this.patchProfileFormData();
+            } else {
+              this.isLoading = false;
             }
           }, (errors) => {
             this.isLoading = false;
@@ -178,15 +180,15 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
     const operation = {
       // tslint:disable-next-line:object-literal-key-quotes
-      'query': 'mutation Mutation($picture: Upload!) { addProfilePicture(picture: $picture) {status, avatar }}',
+      'query': 'mutation Mutation($file: Upload!) { addAvatarImage(file: $file) { ... on AvatarUploadResponse { statusCode, avatar } }}',
       // tslint:disable-next-line:object-literal-key-quotes
       'variables': {
-        picture: null
+        file: null
       }
     };
 
     const mapping = {
-      0: ['variables.picture']
+      0: ['variables.file']
     };
     const fd = new FormData();
     // fd.append('file', this.avatar, this.avatar.name);
@@ -196,10 +198,11 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     const header = {
       headers: new HttpHeaders()
         .set('Authorization',  'Bearer ' + localStorage.getItem('TOKEN'))
+        .set('x-refresh-token', 'Bearer ' + localStorage.getItem('x-refresh-token'))
     };
     this.http.post('http://localhost:3000/graphql', fd, header ).subscribe((res: any) => {
-     const { status, avatar } = res.data.addProfilePicture;
-     if (status === 200 && avatar) {
+     const { statusCode, avatar } = res.data.addAvatarImage;
+     if (statusCode === 200 && avatar) {
        this.avatarImage = avatar;
      }
      this.isLoading = false;
