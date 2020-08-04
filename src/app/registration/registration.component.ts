@@ -67,29 +67,39 @@ export class RegistrationComponent implements OnInit {
       this.apollo.mutate<any>({
         mutation: gql`
           mutation {
-            registration(userInput: {
+            register(userInput: {
               firstName: "${firstName}",
               lastName: "${lastName}",
               email: "${emailId}",
               password: "${password}",
               role: "${role}"
             }) {
-                    status,
-                    message
-                    email
-                    mailInfo
+
+                  ... on RegistrationSuccessResponse {
+                      statusCode
+                      response {
+                        mailInfo
+                        token
+                        refreshToken
+                      }
                   }
-               }
+
+                  ... on RegistrationFailureResponse {
+                    statusCode
+                    response {
+                      message
+                    }
+                  }
+              }
+            }
           `
           }).subscribe(( res ) => {
             console.log(res.data);
-            if (res) {
-                const { status, message } = res.data.registration;
-                if (status === 200) {
-                  alert(message);
+            const { statusCode } = res.data.register;
+            if (statusCode === 200) {
+                  alert('Successfully Registered');
                   this.createRegForm();
                   this.router.navigate(['/login']);
-                }
             }
 
           }, (errors) => {
