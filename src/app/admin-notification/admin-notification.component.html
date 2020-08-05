@@ -1,9 +1,23 @@
-<div class="card">
-  <div class="card-body" *ngIf="notification">
-        <h3> {{notification?.itemName}} </h3>
-        <p> A new product added by = {{notification?.user_firstName}} {{notification?.user_lastName}} </p>
-  </div>
-  <div *ngIf="!notification">
-    <p> No New Notification </p>
-  </div>
-</div>
+
+<div class="container">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-xl-12">
+                    <table class="table-striped table-bordered table-fixed table">
+                        <tbody *ngIf="allNotifications.length>0">
+                            <tr *ngFor="let notification of allNotifications; let idx = index;">
+                                <td>
+                                      <h5> {{notification?.itemName}} </h5>
+                                      <p> A new product added by = {{notification?.user_firstName}} {{notification?.user_lastName}} </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="allNotifications.length===0">
+                            <ng-container>
+                                No Notification Found
+                            </ng-container>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+    </div>

@@ -12,19 +12,28 @@ import { threadId } from 'worker_threads';
 export class SideNavBarComponent implements OnInit {
 
   public isAdmin = false;
-
+  public notification;
+  public isSliderOpen = false;
   constructor(private router: Router, public dataServ: DataService, public notifyServ: NotificationService) { }
 
   ngOnInit(): void {
     const url = this.dataServ.getData('PATH') ?  this.dataServ.getData('PATH') : this.router.url;
     this.isAdmin = url.includes('/admin');
+    this.notifyServ.notifydata.subscribe(res => {
+      console.log('res -->', res);
+      if (res) {
+        this.notification = res.itemAdded;
+      }
+    });
   }
 
   public openNav() {
+    this.isSliderOpen = true;
     document.getElementById('mySidenav').style.width = '250px';
   }
 
   public closeNav() {
+    this.isSliderOpen = false;
     document.getElementById('mySidenav').style.width = '0';
   }
 

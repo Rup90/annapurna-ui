@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../shared/dataservices/notification.service';
+import gql from 'graphql-tag';
+import {Apollo} from 'apollo-angular';
 
 @Component({
   selector: 'app-admin-notification',
@@ -8,17 +9,41 @@ import { NotificationService } from '../shared/dataservices/notification.service
 })
 export class AdminNotificationComponent implements OnInit {
 
-  public notification;
-  constructor(public notifyServ: NotificationService) { }
+  public allNotifications = [];
+  constructor(private apollo: Apollo) { }
 
   ngOnInit(): void {
-    this.notifyServ.notifydata.subscribe(res => {
-      console.log('res -->', res);
-      if (res) {
-        this.notification = res.itemAdded;
-        console.log('res -->', this.notification);
-      }
-    });
+    this.initCall();
+  }
+
+  public initCall() {
+    try {
+      this.apollo.query<any>({
+        query: gql`
+          query {
+            fetchNotifications {
+              ... on NotificationDetails {
+                statusCode
+                notifications {
+                    itemName
+                    user_id
+                    user_firstName
+                    user_lastName
+                    productId
+                }
+              }
+            }
+          }
+        `
+      }).subscribe(({ data, loading }) => {
+        const { statusCode, notifications} = data.fetchNotifications;
+        if (statusCode === 200) {
+          this.allNotifications = notifications;
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 }

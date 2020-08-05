@@ -3,7 +3,7 @@
   <a (click)="clickTonavigate('home')">Home</a>
   <a (click)="clickTonavigate('profile')">My Profile</a>
   <a *ngIf="isAdmin" (click)="clickTonavigate('added-items')">Items</a>
-  <a  *ngIf="isAdmin"  (click)="clickTonavigate('notification')">Notification </a>
+  <a  *ngIf="isAdmin"  (click)="clickTonavigate('notification')">Notification <span *ngIf="notification" class="badge badge-pill badge-danger">New</span> </a>
   <a (click)="logout()">Logout</a>
 </div>
-<span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;</span>
+<span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;<span *ngIf="notification && !isSliderOpen" class="badge badge-pill badge-danger">1</span></span>
