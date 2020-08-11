@@ -69,14 +69,18 @@ export class DashboardComponent implements OnInit {
             }
           }
           `
-          }).subscribe(( res ) => {
-            console.log('res ==>', res);
-            const { statusCode, products } = res.data.fetchAllSavedProducts;
-            this.totalSelectedItems = [];
-            this.isLoading = false;
-            if (statusCode === 200) {
-              this.totalSelectedItems = products;
-              this.cd.detectChanges();
+          }).subscribe(( {data, loading, errors} ) => {
+            this.isLoading = loading;
+            if (data) {
+              const { statusCode, products } = data.fetchAllSavedProducts;
+              this.totalSelectedItems = [];
+              this.isLoading = false;
+              if (statusCode === 200) {
+                this.totalSelectedItems = products;
+                this.cd.detectChanges();
+              }
+            } else {
+              alert(errors[0].message);
             }
           }, (errors) => {
             this.isLoading = false;
