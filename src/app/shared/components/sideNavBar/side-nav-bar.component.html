@@ -6,4 +6,4 @@
   <a  *ngIf="isAdmin"  (click)="clickTonavigate('notification')">Notification <span *ngIf="notification" class="badge badge-pill badge-danger">New</span> </a>
   <a (click)="logout()">Logout</a>
 </div>
-<span style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;<span *ngIf="notification && !isSliderOpen" class="badge badge-pill badge-danger">1</span></span>
+<span  style="font-size:30px;cursor:pointer" (click)="openNav()">&#9776;<span *ngIf="notification && !isSliderOpen && isAdmin" class="badge badge-pill badge-danger">1</span></span>
