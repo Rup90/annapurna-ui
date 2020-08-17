@@ -1,0 +1,188 @@
+.container-scroller {
+
+    overflow: hidden;
+    background: url(../../assets/images/registration_banner.jpg) no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100%;
+    min-width: 1024px;
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+}
+
+@media screen and (max-width: 1024px) { 
+    .container-scroller {
+        overflow: hidden;
+        background: url(../../assets/images/registration_banner.jpg) no-repeat center center fixed;
+        background-size: cover;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        min-height: 100%;
+        min-width: 1024px;
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+}
+
+.container-fluid {
+
+    width: 100%;
+
+    padding-right: 10px;
+
+    padding-left: 10px;
+
+    margin-right: auto;
+
+    margin-left: auto;
+    margin-top:5%;
+
+}
+
+.row {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    margin-right: -10px;
+
+    margin-left: -10px;
+
+}
+
+ 
+
+.w-100 {
+
+    width: 100% !important;
+
+}
+
+.ml-auto, .mx-auto {
+
+    margin-left: auto !important;
+
+}
+
+.mr-auto, .mx-auto {
+
+    margin-right: auto !important;
+
+}
+
+@media (min-width: 992px){
+
+.col-lg-4 {
+
+    flex: 0 0 33.33333%;
+
+    max-width: 33.33333%;
+
+}
+
+}
+
+.auth .auth-form-dark {
+
+    background: rgba(0, 0, 0, 0.6);
+
+    color: #ffffff;
+
+}
+
+ 
+
+.text-left {
+
+    text-align: left !important;
+
+}
+
+.p-5 {
+
+    padding: 3rem !important;
+
+}
+
+h2, .h2 {
+
+    font-size: 1.88rem;
+
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+
+    font-family: "roboto-bold", sans-serif;
+
+}
+
+a, div, h1, h2, h3, h4, h5, p, span {
+
+    text-shadow: none;
+
+}
+
+.font-weight-light, .landing-page .feature-list .feature-list-row .feature-list-item p {
+
+    font-family: "roboto-light", sans-serif;
+
+}
+
+.font-weight-light, .landing-page .feature-list .feature-list-row .feature-list-item p {
+
+    font-weight: 300 !important;
+
+}
+
+.pt-5, .py-5 {
+
+    padding-top: 3rem !important;
+
+}
+
+.auth form .form-group {
+
+    position: relative;
+
+}
+
+.form-group {
+
+    margin-bottom: 1rem;
+
+}
+
+.auth form .form-group label {
+
+    margin-bottom: 0;
+
+    vertical-align: bottom;
+
+    font-size: .8125rem;
+
+    font-family: "roboto-light", sans-serif;
+
+}
+
+.form-group label {
+
+    font-size: 0.875rem;
+
+    line-height: 1;
+
+    vertical-align: top;
+
+}

@@ -1,76 +1,397 @@
-<div class="container registration-page">
+<!-- <div class="container registration-page">
+
   <div class="form">
+
         <form class="register-form" [formGroup]="regForm">
+
             <div>
-              <input type="text"
-                placeholder="First Name"
-                class="form-control"
-                id="firstName"
-                formControlName="firstName"
-                required/>
+
+                <input type="text"
+
+                  placeholder="First Name"
+
+                  class="form-control"
+
+                  id="firstName"
+
+                  formControlName="firstName"
+
+                  required/>
+
                 <div  class="invalid-feedback" *ngIf="formFields.firstName.errors" >
+
                   Please provide first name.
+
                 </div>
+
             </div>
+
+ 
+
             <div>
+
               <input type="text"
+
                 placeholder="Last Name"
+
                 class="form-control"
+
                 id="lastName"
-                formControlName="lastName" 
+
+                formControlName="lastName"
+
                 required/>
-                <div  class="invalid-feedback" *ngIf="formFields.lastName.errors" >
-                  Please provide last name.
-                </div>
+
+              <div  class="invalid-feedback" *ngIf="formFields.lastName.errors" >
+
+                Please provide last name.
+
+              </div>
+
             </div>
+
+ 
+
             <div>
+
               <input type="text"
+
                 placeholder="Email"
+
                 class="form-control"
+
                 id="email"
-                formControlName="emailId" 
+
+                formControlName="emailId"
+
                 required
+
               />
+
               <div  class="invalid-feedback" *ngIf="formFields.emailId.errors" >
+
                 Please provide email.
+
               </div>
+
             </div>
 
+ 
+
             <div>
+
               <input type="password"
+
                placeholder="Password"
+
                 class="form-control"
+
                 id="password"
-                formControlName="password" 
+
+                formControlName="password"
+
                 required
+
               />
+
               <div  class="invalid-feedback" *ngIf="formFields.password.errors" >
+
                 Please provide password.
+
               </div>
+
             </div>
 
+ 
+
             <div>
+
               <input type="password"
+
                placeholder="Confirm Password"
+
                 class="form-control"
+
                 id="confirmPassword"
+
                 formControlName="confirmPassword"
+
                 required
+
               />
+
               <div  class="invalid-feedback" *ngIf="formFields.confirmPassword.errors" >
+
                 Please provide confirm password.
+
               </div>
+
             </div>
-        
+
+       
+
             <div>
-                   <select formControlName="role" class="form-control selectDiv" id="roleSets" required>
-                        <option disabled hidden value="">Role</option>
-                        <option value="ADMIN">Admin</option>
-                        <option value="FARMER">Farmer</option>
-                    </select>
+
+              <select formControlName="role" class="form-control selectDiv" id="roleSets" required>
+
+                    <option disabled hidden value="">Role</option>
+
+                    <option value="ADMIN">Admin</option>
+
+                    <option value="FARMER">Farmer</option>
+
+              </select>
+
             </div>
+
             <button type="submit" (click)="proceedForRegistration(regForm);">create</button>
+
             <p class="message">Already registered? <a class="navigate" (click)="SwitchtoNavigate()">Sign In</a></p>
+
         </form>
+
   </div>
+
+</div> -->
+
+ 
+
+<div class="container-scroller">
+
+  <div class="container-fluid page-body-wrapper">
+
+    <div class="row">
+
+      <div class="container content-wrapper full-page-wrapper d-flex align-items-center auth register-full-bg">
+
+        <div class="row w-100">
+
+          <div class="col-lg-4 mx-auto auth-form-dark">
+
+            <div class="auth-form-light text-left p-5">
+
+              <h2>Register</h2>
+
+              <h4 class="font-weight-light">Hello! let's get started</h4>
+
+              <form class="pt-4" [formGroup]="regForm">
+
+                <div class="form-group">
+
+                  <label for="firstName">First name</label>
+
+                  <!-- <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Username"> -->
+
+ 
+
+                  <input type="text"
+
+                  placeholder="First Name"
+
+                  class="form-control"
+
+                  id="firstName"
+
+                  formControlName="firstName"
+
+                  required/>
+
+                  <i class="mdi mdi-account"></i>
+
+                  <div  class="invalid-feedback" *ngIf="formFields.firstName.errors" >
+
+                    Please provide first name.
+
+                  </div>
+
+                </div>
+
+ 
+
+                <div class="form-group">
+
+                  <label for="lastName">Last Name</label>
+
+                  <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"> -->
+
+                  <input type="text"
+
+                    placeholder="Last Name"
+
+                    class="form-control"
+
+                    id="lastName"
+
+                    formControlName="lastName"
+
+                    required/>
+
+                  <i class="mdi mdi-eye"></i>
+
+                  <div  class="invalid-feedback" *ngIf="formFields.lastName.errors" >
+
+                    Please provide last name.
+
+                  </div>
+
+                </div>
+
+ 
+
+                <div class="form-group">
+
+                  <label for="email">Email</label>
+
+                  <input type="text"
+
+                    placeholder="Email"
+
+                    class="form-control"
+
+                    id="email"
+
+                    formControlName="emailId"
+
+                    required
+
+                  />
+
+                  <i class="mdi mdi-eye"></i>
+
+                  <div  class="invalid-feedback" *ngIf="formFields.emailId.errors" >
+
+                    Please provide email.
+
+                  </div>
+
+                </div>
+
+ 
+
+                <div class="form-group">
+
+                  <label for="password">Password</label>
+
+                  <input type="password"
+
+                  placeholder="Password"
+
+                    class="form-control"
+
+                    id="password"
+
+                    formControlName="password"
+
+                    required
+
+                  />
+
+                  <i class="mdi mdi-eye"></i>
+
+                  <div  class="invalid-feedback" *ngIf="formFields.password.errors" >
+
+                    Please provide password.
+
+                  </div>
+
+                </div>
+
+ 
+
+                <div class="form-group">
+
+                  <label for="confirmPassword">Confirm Password</label>
+
+                  <input type="password"
+
+                  placeholder="Confirm Password"
+
+                    class="form-control"
+
+                    id="confirmPassword"
+
+                    formControlName="confirmPassword"
+
+                    required
+
+                 />
+
+                  <i class="mdi mdi-eye"></i>
+
+                  <div  class="invalid-feedback" *ngIf="formFields.confirmPassword.errors" >
+
+                    Please provide confirm password.
+
+                  </div>
+
+                </div>
+
+ 
+
+                <div class="form-group">
+
+                  <label for="roleSets">Role</label>
+
+                  <select formControlName="role" class="form-control selectDiv" id="roleSets" required>
+
+                    <option disabled hidden value="">Role</option>
+
+                    <option value="ADMIN">Admin</option>
+
+                    <option value="FARMER">Farmer</option>
+
+                  </select>
+
+                </div>
+
+           
+
+                <div class="mt-5">
+
+                  <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium" (click)="proceedForRegistration(regForm);">Register</button>
+
+                </div>
+
+                <!-- <div class="mt-2 w-75 mx-auto">
+
+                  <div class="form-check form-check-flat">
+
+                    <label class="form-check-label">
+
+                      <input type="checkbox" class="form-check-input">
+
+                      I accept terms and conditions
+
+                    </label>
+
+                  </div>
+
+                </div> -->
+
+                <div class="mt-2 text-center">
+
+                  <a href="#" class="auth-link text-black">Already have an account? <span class="font-weight-medium"  (click)="SwitchtoNavigate()">Sign in</span></a>
+
+                </div>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- content-wrapper ends -->
+
+    </div>
+
+    <!-- row ends -->
+
+  </div>
+
+  <!-- page-body-wrapper ends -->
+
 </div>
